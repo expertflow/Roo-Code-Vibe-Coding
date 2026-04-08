@@ -1,41 +1,74 @@
 # ============================================================
 #  Roo Code Global Rules - Enterprise Vibe Coding Stack
+#  Project: BMADMonorepoEFInternalTools (ExpertFlow Internal ERP)
 #  These rules apply to ALL modes and ALL tasks.
 # ============================================================
 
 ## Secrets & Credentials
 - NEVER hardcode API keys, passwords, tokens, or connection strings in any file.
 - ALWAYS fetch secrets from HashiCorp Vault at: https://45.88.223.83:31313
-- Vault secret path for all project secrets: cubbyhole/roocode
+- Vault secret path for all project secrets: cubbyhole/internal-erp/db
+- Known Vault keys: ANTHROPIC_API_KEY, DIRECTUS_ADMIN_EMAIL, DIRECTUS_PASSWORD, DIRECTUS_TOKEN, DIRECTUS_KEY, DIRECTUS_SECRET, BS4_DEV_PASSWORD
 - If you need a secret, say "I need [secret_name] from Vault" and use the vault MCP tool.
 - NEVER write a secret to a log, console output, or comment.
 
-## Database (PostgreSQL)
-- ALWAYS use the postgresql MCP tool for database operations.
-- NEVER write raw SQL directly in application code - use the Directus SDK instead.
+## Database (PostgreSQL via Directus)
+- ALWAYS use the Directus SDK (@directus/sdk) for CRUD operations in application code.
+- Directus URL: https://bs4.expertflow.com (v11.12.0, MCP enabled)
+- Use the directus MCP to inspect collections, fields, and permissions before coding.
+- NEVER bypass Directus permissions by going directly to PostgreSQL in app code.
+- PostgreSQL port 5432 is NOT publicly exposed - all DB access goes through Directus API.
 - Only use raw SQL via the postgresql MCP for schema inspection, migrations, and reporting.
 - Before writing any DB query, check the schema via the postgresql MCP first.
 
-## Directus
-- ALWAYS use the Directus SDK (@directus/sdk) for CRUD operations in application code.
-- Use the directus MCP to inspect collections, fields, and permissions before coding.
-- NEVER bypass Directus permissions by going directly to PostgreSQL in app code.
+## Key ERP Collections (bs4.expertflow.com)
+- Finance: Account, Accruals, Allocation, BankStatement, Invoice, Journal, Transaction, Currency, CurrencyExchange
+- HR: Employee, Leaves, Seniority, Designation, department, EmployeePersonalInfo
+- CRM: Contact, Deal, Quotes, LegalEntity, Company, QuoteLineItems
+- Projects: Project, Task, TimeEntry, InternalCost, ProfitCenter
+- Support: tickets, ticket_updates, sla_definitions
+- Products: product_catalogue, ProductDependencies
+- Total: 75 collections | Users: 11 | Roles: Administrator, HRandFinance, SSO JIT (minimal)
+
+## BMAD Method (v6.2.0)
+- Project name: BMADMonorepoEFInternalTools
+- BMAD root: _bmad/ (agents, workflows, config)
+- BMAD output: _bmad-output/ (planning-artifacts/, implementation-artifacts/)
+- Project knowledge: docs/ (governance.md, legal-entity-insights.md)
+- Read _bmad-output/planning-artifacts/ BEFORE writing any new feature code.
+- Read _bmad-output/implementation-artifacts/ BEFORE implementing any story.
+- Read docs/ for governance and architectural decisions.
+- Update _bmad-output/implementation-artifacts/ when completing a story.
+- BMAD agents available: analyst, architect, dev, pm, qa, sm, ux-designer, tech-writer
+- BMAD workflows: create-prd, create-architecture, create-epics-and-stories, dev-story, sprint-planning, sprint-status, retrospective, document-project, generate-project-context, qa-generate-e2e-tests, quick-flow
+
+## Project Structure
+- projects/internal-erp/directus/ - Directus configuration, extensions, scripts, SQL
+- projects/internal-erp/directus/extensions/ - Custom Directus extensions (bank-import, cash-flow-api, finance-dashboard, rls-user-context)
+- projects/internal-erp/directus/scripts/ - Migration and configuration scripts
+- projects/internal-erp/directus/docs/sql/ - SQL migrations and diagnostics
+- projects/internal-erp/bank-import/ - Python bank statement parser (UBS, generic CSV)
+- projects/internal-erp/finance-streamlit/ - Finance dashboard (Python/Streamlit)
+- projects/internal-erp/expense-api/ - Expense API (Node.js, GCP Cloud Run)
+- projects/internal-erp/google-apps-script/ - Google Apps Script integrations
 
 ## Code Quality & Linting
 - ALWAYS run the lint MCP check before raising a PR.
 - ESLint must pass with zero errors before any commit.
 - Gherkin/Cucumber feature files must exist for all new user-facing features.
-- Run requirement-linter against docs/bmad before starting any new feature.
+- Run requirement-linter against _bmad-output/planning-artifacts before starting any new feature.
 
 ## Documentation
-- Read docs/bmad BEFORE writing any new feature code.
-- Read docs/specs BEFORE implementing any API endpoint or schema change.
-- Update docs/specs when you change an API contract or database schema.
+- Read _bmad-output/planning-artifacts/ BEFORE writing any new feature code.
+- Read _bmad-output/implementation-artifacts/ BEFORE implementing any API endpoint or schema change.
+- Update _bmad-output/implementation-artifacts/ when you change an API contract or database schema.
+- Key planning docs: prd-ExpertflowInternalERP-2026-03-16.md, architecture-BMADMonorepoEFInternalTools-2026-03-15.md, epics-ExpertflowInternalERP-2026-03-16.md
 
 ## Testing
 - Use the playwright MCP to write and run end-to-end tests for all UI changes.
 - Tests must pass before a PR is raised.
 - Write tests ALONGSIDE the feature code, not after.
+- E2E test target: https://bs4.expertflow.com
 
 ## LLM Model Selection
 - Use Gemini 2.5 Pro for: initial architecture, large context tasks (>100k tokens).
@@ -44,10 +77,18 @@
 
 ## GCP & Infrastructure
 - Target platform: GCP (Cloud Run, Firebase, PostgreSQL, Docker).
+- GCP project: expertflowerp, region: us-central1
 - Use Angular/Material, Bootstrap, Tailwind, Ngx-charts - NOT React/Vite/Shadcn.
-- Reference GCP project: expertflowerp, region: us-central1.
+- Directus runs on GCP VM (bs4.expertflow.com) via Docker Compose.
+- See projects/internal-erp/directus/docker-compose.yml for container config.
 
 ## Git & SAFe
 - Every AI-generated code change must pass linting and SpecKit validation (Definition of Done).
 - Commit messages must reference the Jira ticket number.
 - Never push directly to main - always raise a PR.
+
+## Governance (docs/governance.md)
+- All architectural decisions must include a Licensing Lever Analysis.
+- Prefer open-source/portable frameworks (self-hosted PostgreSQL over proprietary NoSQL).
+- Security (RBAC/RLS) must be managed at the API/Backend layer, never solely in the Frontend.
+- Direct database access must be restricted via Directus to prevent AI-assisted dev from bypassing security.

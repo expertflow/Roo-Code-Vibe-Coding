@@ -1,0 +1,63 @@
+{
+  "name": "Bank Statement Import",
+  "icon": "upload_file",
+  "color": "#6644FF",
+  "trigger": "manual",
+  "collection": "BankStatement",
+  "options": {
+    "location": "collection",
+    "require_selection": false,
+    "fields": [
+      {
+        "field": "account",
+        "name": "Target Account",
+        "type": "integer",
+        "meta": {
+          "interface": "select-dropdown-m2o",
+          "options": {
+            "template": "{{Name}} ({{id}})"
+          },
+          "required": true,
+          "collection": "Account"
+        }
+      },
+      {
+        "field": "file",
+        "name": "CSV File",
+        "type": "uuid",
+        "meta": {
+          "interface": "file",
+          "required": true
+        }
+      },
+      {
+        "field": "dryRun",
+        "name": "Dry Run",
+        "type": "boolean",
+        "meta": {
+          "interface": "boolean",
+          "width": "half"
+        },
+        "schema": {
+          "default_value": true
+        }
+      }
+    ]
+  },
+  "operations": [
+    {
+      "name": "Call Importer",
+      "key": "importer_call",
+      "type": "request",
+      "options": {
+        "url": "http://localhost:8055/bank-statement-import/run",
+        "method": "POST",
+        "body": "{\n  \"account\": {{trigger.payload.account}},\n  \"fileId\": \"{{trigger.payload.file}}\",\n  \"dryRun\": {{trigger.payload.dryRun}}\n}",
+        "headers": [
+          { "header": "Content-Type", "value": "application/json" },
+          { "header": "Authorization", "value": "Bearer YOUR_ADMIN_TOKEN_OR_USE_STATIC_TOKEN" }
+        ]
+      }
+    }
+  ]
+}

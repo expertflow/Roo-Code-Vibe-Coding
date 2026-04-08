@@ -1,0 +1,11 @@
+{
+  "name": "directus-extension-bank-statement-transaction-generate",
+  "version": "1.0.0",
+  "type": "module",
+  "directus:extension": {
+    "type": "endpoint",
+    "path": "/bank-statement-transaction-generate",
+    "source": "src/index.js",
+    "host": "^10.10.0"
+  }
+}

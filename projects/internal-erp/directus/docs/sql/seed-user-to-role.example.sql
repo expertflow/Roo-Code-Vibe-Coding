@@ -1,0 +1,9 @@
+-- Example: insert UserToRole outside Directus items.* (avoids RLS when DB user is owner / no SET ROLE).
+-- Adjust schema, table/column names, and values. Id column: use next free id or your sequence.
+--
+-- Example for mixed-case ERP schema:
+-- INSERT INTO "BS4Prod09Feb2026"."UserToRole" ("User", "RoleName")
+-- VALUES ('apstuber@expertflow.com', 'Finance');
+--
+-- Run as break-glass bs4_dev (or superuser) via psql — not as Directus DB_USER (sterile_dev) if RLS blocks;
+-- not from Directus Admin if items.* insert fails.

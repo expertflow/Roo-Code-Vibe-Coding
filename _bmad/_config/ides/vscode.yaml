@@ -1,0 +1,16 @@
+# VS Code IDE Configuration for BMAD v6.2.0
+# Project: BMADMonorepoEFInternalTools
+ide: vscode
+configured_date: 2026-04-08T14:00:00.000Z
+last_updated: 2026-04-08T14:00:00.000Z
+configuration:
+  roo_code_extension: RooVeterinaryInc.roo-cline
+  mcp_config: .roo/mcp.json
+  clinerules: .clinerules
+  bmad_root: _bmad/
+  bmad_output: _bmad-output/
+  project_knowledge: docs/
+  notes: >
+    VS Code uses Roo Code (RooVeterinaryInc.roo-cline) as the AI coding assistant.
+    MCP servers are configured in .roo/mcp.json.
+    Run .roo/bootstrap-mcp.ps1 to resolve Vault secrets into .roo/mcp.resolved.json.

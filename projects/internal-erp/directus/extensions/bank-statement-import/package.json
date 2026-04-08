@@ -1,0 +1,13 @@
+{
+  "name": "directus-extension-bank-statement-import",
+  "version": "1.0.0",
+  "description": "POST JSON (account + csv) → Python bank-import CLI → dry-run or BankStatement creates (Story 3-1c)",
+  "keywords": ["directus", "directus-extension", "directus-custom-endpoint"],
+  "type": "module",
+  "directus:extension": {
+    "type": "endpoint",
+    "path": "index.js",
+    "source": "index.js",
+    "host": "^11.0.0"
+  }
+}

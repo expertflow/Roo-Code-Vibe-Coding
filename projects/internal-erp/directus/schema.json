@@ -1,0 +1,7420 @@
+version: 1
+directus: 11.12.0
+vendor: postgres
+collections:
+  - collection: Account
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: Account
+      color: null
+      display_template: '{{Name}} [{{LegalEntity.Name}}]'
+      group: null
+      hidden: false
+      icon: account_balance_wallet
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations:
+        - language: en-US
+          plural: Accounts
+          singular: Account
+          translation: Account
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: Account
+  - collection: Accruals
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: Accruals
+      color: null
+      display_template: '{{id}} · {{FiscalYear}}'
+      group: null
+      hidden: false
+      icon: calendar_month
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations:
+        - language: en-US
+          plural: Accruals
+          singular: Accrual
+          translation: Accrual
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: Accruals
+  - collection: Allocation
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: Allocation
+      color: null
+      display_template: '{{id}} · {{Amount}}'
+      group: null
+      hidden: false
+      icon: pie_chart
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations:
+        - language: en-US
+          plural: Allocations
+          singular: Allocation
+          translation: Allocation
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: Allocation
+  - collection: BankStatement
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: BankStatement
+      color: null
+      display_template: '{{Date}} · {{Amount}} · {{Description}}'
+      group: null
+      hidden: false
+      icon: receipt_long
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations:
+        - language: en-US
+          plural: Bank Statements
+          singular: Bank Statement
+          translation: Bank Statement
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: BankStatement
+  - collection: Company
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: Company
+      color: null
+      display_template: '{{Domain}}'
+      group: null
+      hidden: false
+      icon: business
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations:
+        - language: en-US
+          plural: Companies
+          singular: Company
+          translation: Company
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: Company
+  - collection: Contact
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: Contact
+      color: null
+      display_template: '{{Firstname}} {{LastName}}'
+      group: null
+      hidden: false
+      icon: person
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations:
+        - language: en-US
+          plural: Contacts
+          singular: Contact
+          translation: Contact
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: Contact
+  - collection: CountryLocation
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: CountryLocation
+      color: null
+      display_template: '{{Region}} — {{Description}}'
+      group: null
+      hidden: false
+      icon: public
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations:
+        - language: en-US
+          plural: Countries / Locations
+          singular: Country / Location
+          translation: Country / Location
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: CountryLocation
+  - collection: Currency
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: Currency
+      color: null
+      display_template: '{{CurrencyCode}} — {{Name}}'
+      group: null
+      hidden: false
+      icon: payments
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations:
+        - language: en-US
+          plural: Currencies
+          singular: Currency
+          translation: Currency
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: Currency
+  - collection: CurrencyExchange
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: CurrencyExchange
+      color: null
+      display_template: '{{Day}} · {{Currency}} · {{RateToUSD}}'
+      group: null
+      hidden: false
+      icon: trending_up
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations:
+        - language: en-US
+          plural: Currency Exchange Rates
+          singular: Currency Exchange Rate
+          translation: Currency Exchange Rate
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: CurrencyExchange
+  - collection: Designation
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: Designation
+      color: null
+      display_template: '{{DesignationName}}'
+      group: null
+      hidden: false
+      icon: work
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations:
+        - language: en-US
+          plural: Designations
+          singular: Designation
+          translation: Designation
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: Designation
+  - collection: Employee
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: Employee
+      color: null
+      display_template: '{{EmployeeName}} ({{email}})'
+      group: null
+      hidden: false
+      icon: badge
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations:
+        - language: en-US
+          plural: Employees
+          singular: Employee
+          translation: Employee
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: Employee
+  - collection: EmployeePersonalInfo
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: EmployeePersonalInfo
+      color: null
+      display_template: '{{employee_id.EmployeeName}}'
+      group: null
+      hidden: false
+      icon: shield_person
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations:
+        - language: en-US
+          plural: Employee Personal Info
+          singular: Employee Personal Info
+          translation: Employee Personal Info
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: EmployeePersonalInfo
+  - collection: InternalCost
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: InternalCost
+      color: null
+      display_template: null
+      group: null
+      hidden: false
+      icon: null
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations: null
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: InternalCost
+  - collection: Invoice
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: Invoice
+      color: null
+      display_template: INV-{{id}} · {{Amount}} {{Currency.CurrencyCode}}
+      group: null
+      hidden: false
+      icon: receipt
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations:
+        - language: en-US
+          plural: Invoices
+          singular: Invoice
+          translation: Invoice
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: Invoice
+  - collection: Journal
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: Journal
+      color: null
+      display_template: '{{id}} · {{ReferenceType}} #{{ReferenceID}}'
+      group: null
+      hidden: false
+      icon: article
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations:
+        - language: en-US
+          plural: Journal Entries
+          singular: Journal Entry
+          translation: Journal Entry
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: Journal
+  - collection: LegalEntity
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: LegalEntity
+      color: null
+      display_template: '{{Name}} ({{Type}})'
+      group: null
+      hidden: false
+      icon: gavel
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations:
+        - language: en-US
+          plural: Legal Entities
+          singular: Legal Entity
+          translation: Legal Entity
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: LegalEntity
+  - collection: ProfitCenter
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: ProfitCenter
+      color: null
+      display_template: '{{Name}}'
+      group: null
+      hidden: false
+      icon: hub
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations:
+        - language: en-US
+          plural: Profit Centers
+          singular: Profit Center
+          translation: Profit Center
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: ProfitCenter
+  - collection: Project
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: Project
+      color: null
+      display_template: '{{Name}} — {{Status}}'
+      group: null
+      hidden: false
+      icon: folder
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations:
+        - language: en-US
+          plural: Projects
+          singular: Project
+          translation: Project
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: Project
+  - collection: Role
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: Role
+      color: null
+      display_template: '{{Name}}'
+      group: null
+      hidden: false
+      icon: admin_panel_settings
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations:
+        - language: en-US
+          plural: App Roles
+          singular: App Role
+          translation: App Role
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: Role
+  - collection: RolePermissions
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: RolePermissions
+      color: null
+      display_template: '{{TableName}} ({{Role.Name}})'
+      group: null
+      hidden: false
+      icon: rule_folder
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations:
+        - language: en-US
+          plural: Role Permissions
+          singular: Role Permission
+          translation: Role Permission
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: RolePermissions
+  - collection: Seniority
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: Seniority
+      color: null
+      display_template: '{{Description}}'
+      group: null
+      hidden: false
+      icon: stairs
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations:
+        - language: en-US
+          plural: Seniorities
+          singular: Seniority
+          translation: Seniority
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: Seniority
+  - collection: Transaction
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: Transaction
+      color: null
+      display_template: TXN-{{id}} · {{Amount}} · {{Date}}
+      group: null
+      hidden: false
+      icon: swap_horiz
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations:
+        - language: en-US
+          plural: Transactions
+          singular: Transaction
+          translation: Transaction
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: Transaction
+  - collection: UserToRole
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: UserToRole
+      color: null
+      display_template: '{{User}} → {{RoleName.Name}}'
+      group: null
+      hidden: false
+      icon: link
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations:
+        - language: en-US
+          plural: User to Roles
+          singular: User to Role
+          translation: User to Role
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: UserToRole
+  - collection: department
+    meta:
+      accountability: all
+      archive_app_filter: true
+      archive_field: null
+      archive_value: null
+      collapse: open
+      collection: department
+      color: null
+      display_template: '{{departmentname}}'
+      group: null
+      hidden: false
+      icon: corporate_fare
+      item_duplication_fields: null
+      note: null
+      preview_url: null
+      singleton: false
+      sort: null
+      sort_field: null
+      translations:
+        - language: en-US
+          plural: Departments
+          singular: Department
+          translation: Department
+      unarchive_value: null
+      versioning: false
+    schema:
+      name: department
+fields:
+  - collection: Account
+    field: id
+    type: integer
+    meta:
+      collection: Account
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Id
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: Account
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Account
+    field: Currency
+    type: integer
+    meta:
+      collection: Account
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{CurrencyCode}} — {{Name}}'
+      field: Currency
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{CurrencyCode}} — {{Name}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Currency
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Currency
+      table: Account
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Currency
+      foreign_key_column: id
+  - collection: Account
+    field: Name
+    type: text
+    meta:
+      collection: Account
+      conditions: null
+      display: null
+      display_options: null
+      field: Name
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Name
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Name
+      table: Account
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Account
+    field: Details
+    type: text
+    meta:
+      collection: Account
+      conditions: null
+      display: null
+      display_options: null
+      field: Details
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Details
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Details
+      table: Account
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Account
+    field: LegalEntity
+    type: integer
+    meta:
+      collection: Account
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Name}} ({{Type}})'
+      field: LegalEntity
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Name}} ({{Type}})'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Legal Entity
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: LegalEntity
+      table: Account
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: LegalEntity
+      foreign_key_column: id
+  - collection: Accruals
+    field: id
+    type: integer
+    meta:
+      collection: Accruals
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Id
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: Accruals
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: true
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Accruals
+    field: Project
+    type: integer
+    meta:
+      collection: Accruals
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Name}} — {{Status}}'
+      field: Project
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Name}} — {{Status}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Project
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Project
+      table: Accruals
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Project
+      foreign_key_column: id
+  - collection: Accruals
+    field: Amount
+    type: text
+    meta:
+      collection: Accruals
+      conditions: null
+      display: null
+      display_options: null
+      field: Amount
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Amount
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Amount
+      table: Accruals
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Accruals
+    field: Currency
+    type: integer
+    meta:
+      collection: Accruals
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{CurrencyCode}} — {{Name}}'
+      field: Currency
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{CurrencyCode}} — {{Name}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Currency
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Currency
+      table: Accruals
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Currency
+      foreign_key_column: id
+  - collection: Accruals
+    field: FiscalYear
+    type: text
+    meta:
+      collection: Accruals
+      conditions: null
+      display: null
+      display_options: null
+      field: FiscalYear
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Fiscal Year
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: FiscalYear
+      table: Accruals
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Allocation
+    field: id
+    type: integer
+    meta:
+      collection: Allocation
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Id
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: Allocation
+      data_type: integer
+      default_value: nextval('allocation_id_seq'::regclass)
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: true
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Allocation
+    field: Invoice
+    type: integer
+    meta:
+      collection: Allocation
+      conditions: null
+      display: related-values
+      display_options:
+        template: INV-{{id}} · {{Amount}} {{Currency.CurrencyCode}}
+      field: Invoice
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: INV-{{id}} · {{Amount}} {{Currency.CurrencyCode}}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Invoice
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Invoice
+      table: Allocation
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Invoice
+      foreign_key_column: id
+  - collection: Allocation
+    field: Transaction
+    type: integer
+    meta:
+      collection: Allocation
+      conditions: null
+      display: related-values
+      display_options:
+        template: TXN-{{id}} · {{Amount}} · {{Date}}
+      field: Transaction
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: TXN-{{id}} · {{Amount}} · {{Date}}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Transaction
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Transaction
+      table: Allocation
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Transaction
+      foreign_key_column: id
+  - collection: Allocation
+    field: Amount
+    type: integer
+    meta:
+      collection: Allocation
+      conditions: null
+      display: null
+      display_options: null
+      field: Amount
+      group: null
+      hidden: false
+      interface: input-decimal
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Amount
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Amount
+      table: Allocation
+      data_type: numeric
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Allocation
+    field: OriginAccount
+    type: integer
+    meta:
+      collection: Allocation
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Name}} [{{LegalEntity.Name}}]'
+      field: OriginAccount
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Name}} [{{LegalEntity.Name}}]'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Origin Account
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: OriginAccount
+      table: Allocation
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Account
+      foreign_key_column: id
+  - collection: Allocation
+    field: DestinationAccount
+    type: integer
+    meta:
+      collection: Allocation
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Name}} [{{LegalEntity.Name}}]'
+      field: DestinationAccount
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Name}} [{{LegalEntity.Name}}]'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Destination Account
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: DestinationAccount
+      table: Allocation
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Account
+      foreign_key_column: id
+  - collection: Allocation
+    field: TransferLoss
+    type: integer
+    meta:
+      collection: Allocation
+      conditions: null
+      display: null
+      display_options: null
+      field: TransferLoss
+      group: null
+      hidden: false
+      interface: input-decimal
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Transfer Loss
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: TransferLoss
+      table: Allocation
+      data_type: numeric
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: BankStatement
+    field: id
+    type: integer
+    meta:
+      collection: BankStatement
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Id
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: BankStatement
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: BankStatement
+    field: Account
+    type: integer
+    meta:
+      collection: BankStatement
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Name}} [{{LegalEntity.Name}}]'
+      field: Account
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Name}} [{{LegalEntity.Name}}]'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Account
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Account
+      table: BankStatement
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Account
+      foreign_key_column: id
+  - collection: BankStatement
+    field: BankTransactionID
+    type: text
+    meta:
+      collection: BankStatement
+      conditions: null
+      display: null
+      display_options: null
+      field: BankTransactionID
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Bank Transaction ID
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: BankTransactionID
+      table: BankStatement
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: BankStatement
+    field: Amount
+    type: integer
+    meta:
+      collection: BankStatement
+      conditions: null
+      display: null
+      display_options: null
+      field: Amount
+      group: null
+      hidden: false
+      interface: input-decimal
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Amount
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Amount
+      table: BankStatement
+      data_type: numeric
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: BankStatement
+    field: Date
+    type: date
+    meta:
+      collection: BankStatement
+      conditions: null
+      display: null
+      display_options: null
+      field: Date
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Date
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Date
+      table: BankStatement
+      data_type: date
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: BankStatement
+    field: Description
+    type: text
+    meta:
+      collection: BankStatement
+      conditions: null
+      display: null
+      display_options: null
+      field: Description
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Description
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Description
+      table: BankStatement
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Company
+    field: id
+    type: integer
+    meta:
+      collection: Company
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Id
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: Company
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: true
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Company
+    field: Domain
+    type: text
+    meta:
+      collection: Company
+      conditions: null
+      display: null
+      display_options: null
+      field: Domain
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Domain
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Domain
+      table: Company
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Company
+    field: Country
+    type: text
+    meta:
+      collection: Company
+      conditions: null
+      display: null
+      display_options: null
+      field: Country
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Country
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Country
+      table: Company
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Company
+    field: Type
+    type: text
+    meta:
+      collection: Company
+      conditions: null
+      display: null
+      display_options: null
+      field: Type
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Type
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Type
+      table: Company
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Company
+    field: WebsiteURL
+    type: text
+    meta:
+      collection: Company
+      conditions: null
+      display: null
+      display_options: null
+      field: WebsiteURL
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Website URL
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: WebsiteURL
+      table: Company
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Company
+    field: Industry
+    type: string
+    meta:
+      collection: Company
+      conditions: null
+      display: null
+      display_options: null
+      field: Industry
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Industry
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Industry
+      table: Company
+      data_type: character varying
+      default_value: null
+      max_length: 100
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Contact
+    field: id
+    type: integer
+    meta:
+      collection: Contact
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Id
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: Contact
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: true
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Contact
+    field: Firstname
+    type: text
+    meta:
+      collection: Contact
+      conditions: null
+      display: null
+      display_options: null
+      field: Firstname
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: First name
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Firstname
+      table: Contact
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Contact
+    field: LastName
+    type: text
+    meta:
+      collection: Contact
+      conditions: null
+      display: null
+      display_options: null
+      field: LastName
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Last name
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: LastName
+      table: Contact
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Contact
+    field: Email
+    type: text
+    meta:
+      collection: Contact
+      conditions: null
+      display: null
+      display_options: null
+      field: Email
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Email
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Email
+      table: Contact
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Contact
+    field: Company
+    type: integer
+    meta:
+      collection: Contact
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Domain}}'
+      field: Company
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Domain}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Company
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Company
+      table: Contact
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Company
+      foreign_key_column: id
+  - collection: Contact
+    field: Country
+    type: text
+    meta:
+      collection: Contact
+      conditions: null
+      display: null
+      display_options: null
+      field: Country
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Country
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Country
+      table: Contact
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Contact
+    field: Language
+    type: text
+    meta:
+      collection: Contact
+      conditions: null
+      display: null
+      display_options: null
+      field: Language
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Language
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Language
+      table: Contact
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: CountryLocation
+    field: id
+    type: integer
+    meta:
+      collection: CountryLocation
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Id
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: CountryLocation
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: true
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: CountryLocation
+    field: Region
+    type: text
+    meta:
+      collection: CountryLocation
+      conditions: null
+      display: null
+      display_options: null
+      field: Region
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Region
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Region
+      table: CountryLocation
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: CountryLocation
+    field: Description
+    type: text
+    meta:
+      collection: CountryLocation
+      conditions: null
+      display: null
+      display_options: null
+      field: Description
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Description
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Description
+      table: CountryLocation
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: CountryLocation
+    field: Currency
+    type: integer
+    meta:
+      collection: CountryLocation
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{CurrencyCode}} — {{Name}}'
+      field: Currency
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{CurrencyCode}} — {{Name}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Currency
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Currency
+      table: CountryLocation
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Currency
+      foreign_key_column: id
+  - collection: CountryLocation
+    field: VATRate
+    type: text
+    meta:
+      collection: CountryLocation
+      conditions: null
+      display: null
+      display_options: null
+      field: VATRate
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: VAT rate
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: VATRate
+      table: CountryLocation
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Currency
+    field: id
+    type: integer
+    meta:
+      collection: Currency
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Id
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: Currency
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Currency
+    field: CurrencyCode
+    type: text
+    meta:
+      collection: Currency
+      conditions: null
+      display: null
+      display_options: null
+      field: CurrencyCode
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Currency Code
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: CurrencyCode
+      table: Currency
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Currency
+    field: Name
+    type: text
+    meta:
+      collection: Currency
+      conditions: null
+      display: null
+      display_options: null
+      field: Name
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Name
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Name
+      table: Currency
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: CurrencyExchange
+    field: id
+    type: integer
+    meta:
+      collection: CurrencyExchange
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: true
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: 100
+      special: null
+      translations:
+        - language: en-US
+          translation: Id
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: CurrencyExchange
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: true
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: CurrencyExchange
+    field: Currency
+    type: string
+    meta:
+      collection: CurrencyExchange
+      conditions: null
+      display: null
+      display_options: null
+      field: Currency
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: 2
+      special: null
+      translations:
+        - language: en-US
+          translation: Currency Code
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Currency
+      table: CurrencyExchange
+      data_type: character varying
+      default_value: null
+      max_length: 255
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: CurrencyExchange
+    field: RateToUSD
+    type: text
+    meta:
+      collection: CurrencyExchange
+      conditions: null
+      display: null
+      display_options: null
+      field: RateToUSD
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: 3
+      special: null
+      translations:
+        - language: en-US
+          translation: Rate to USD (value)
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: RateToUSD
+      table: CurrencyExchange
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: CurrencyExchange
+    field: Day
+    type: date
+    meta:
+      collection: CurrencyExchange
+      conditions: null
+      display: null
+      display_options: null
+      field: Day
+      group: null
+      hidden: false
+      interface: datetime
+      note: Date the exchange rate applies (canonical rate date).
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: 1
+      special: null
+      translations:
+        - language: en-US
+          translation: Effective date
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Day
+      table: CurrencyExchange
+      data_type: date
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Deal
+    field: Project
+    type: integer
+    meta:
+      collection: Deal
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Name}} — {{Status}}'
+      field: Project
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Name}} — {{Status}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Project
+      table: Deal
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Project
+      foreign_key_column: id
+  - collection: Deal
+    field: Company
+    type: integer
+    meta:
+      collection: Deal
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Domain}}'
+      field: Company
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Domain}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Company
+      table: Deal
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Company
+      foreign_key_column: id
+  - collection: Deal
+    field: Partner
+    type: integer
+    meta:
+      collection: Deal
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Domain}}'
+      field: Partner
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Domain}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Partner
+      table: Deal
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Company
+      foreign_key_column: id
+  - collection: Designation
+    field: DesignationID
+    type: integer
+    meta:
+      collection: Designation
+      conditions: null
+      display: null
+      display_options: null
+      field: DesignationID
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Designation ID
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: DesignationID
+      table: Designation
+      data_type: integer
+      default_value: nextval('"Designation_DesignationID_seq"'::regclass)
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: true
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Designation
+    field: DesignationName
+    type: string
+    meta:
+      collection: Designation
+      conditions: null
+      display: null
+      display_options: null
+      field: DesignationName
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Designation name
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: DesignationName
+      table: Designation
+      data_type: character varying
+      default_value: null
+      max_length: 150
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Employee
+    field: id
+    type: integer
+    meta:
+      collection: Employee
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Id
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: Employee
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: true
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Employee
+    field: email
+    type: text
+    meta:
+      collection: Employee
+      conditions: null
+      display: null
+      display_options: null
+      field: email
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Email
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: email
+      table: Employee
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Employee
+    field: mobile_number
+    type: text
+    meta:
+      collection: Employee
+      conditions: null
+      display: null
+      display_options: null
+      field: mobile_number
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Mobile number
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: mobile_number
+      table: Employee
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Employee
+    field: employ_start_date
+    type: date
+    meta:
+      collection: Employee
+      conditions: null
+      display: null
+      display_options: null
+      field: employ_start_date
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Employment start date
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: employ_start_date
+      table: Employee
+      data_type: date
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Employee
+    field: status
+    type: text
+    meta:
+      collection: Employee
+      conditions: null
+      display: null
+      display_options: null
+      field: status
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Status
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: status
+      table: Employee
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Employee
+    field: Seniority
+    type: integer
+    meta:
+      collection: Employee
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Description}}'
+      field: Seniority
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Description}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Seniority
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Seniority
+      table: Employee
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Seniority
+      foreign_key_column: id
+  - collection: Employee
+    field: departmentid
+    type: integer
+    meta:
+      collection: Employee
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{departmentname}}'
+      field: departmentid
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{departmentname}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Department
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: departmentid
+      table: Employee
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: department
+      foreign_key_column: departmentid
+  - collection: Employee
+    field: DesignationID
+    type: integer
+    meta:
+      collection: Employee
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{DesignationName}}'
+      field: DesignationID
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{DesignationName}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Designation
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: DesignationID
+      table: Employee
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Designation
+      foreign_key_column: DesignationID
+  - collection: Employee
+    field: EmployeeName
+    type: string
+    meta:
+      collection: Employee
+      conditions: null
+      display: null
+      display_options: null
+      field: EmployeeName
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Employee name
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: EmployeeName
+      table: Employee
+      data_type: character varying
+      default_value: null
+      max_length: 200
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Employee
+    field: DefaultProjectId
+    type: integer
+    meta:
+      collection: Employee
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Name}} — {{Status}}'
+      field: DefaultProjectId
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Name}} — {{Status}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Default project
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: DefaultProjectId
+      table: Employee
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Project
+      foreign_key_column: id
+  - collection: Employee
+    field: ManagerId
+    type: integer
+    meta:
+      collection: Employee
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{EmployeeName}} ({{email}})'
+      field: ManagerId
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{EmployeeName}} ({{email}})'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Manager
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: ManagerId
+      table: Employee
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Employee
+      foreign_key_column: id
+  - collection: EmployeePersonalInfo
+    field: employee_id
+    type: integer
+    meta:
+      collection: EmployeePersonalInfo
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{EmployeeName}} ({{email}})'
+      field: employee_id
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{EmployeeName}} ({{email}})'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Employee
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: employee_id
+      table: EmployeePersonalInfo
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Employee
+      foreign_key_column: id
+  - collection: EmployeePersonalInfo
+    field: personal_email
+    type: text
+    meta:
+      collection: EmployeePersonalInfo
+      conditions: null
+      display: null
+      display_options: null
+      field: personal_email
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Personal email
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: personal_email
+      table: EmployeePersonalInfo
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: EmployeePersonalInfo
+    field: phone_no
+    type: text
+    meta:
+      collection: EmployeePersonalInfo
+      conditions: null
+      display: null
+      display_options: null
+      field: phone_no
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Phone
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: phone_no
+      table: EmployeePersonalInfo
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: EmployeePersonalInfo
+    field: father_name
+    type: text
+    meta:
+      collection: EmployeePersonalInfo
+      conditions: null
+      display: null
+      display_options: null
+      field: father_name
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Father's name
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: father_name
+      table: EmployeePersonalInfo
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: EmployeePersonalInfo
+    field: emergency_contact_phone
+    type: text
+    meta:
+      collection: EmployeePersonalInfo
+      conditions: null
+      display: null
+      display_options: null
+      field: emergency_contact_phone
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Emergency contact phone
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: emergency_contact_phone
+      table: EmployeePersonalInfo
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: EmployeePersonalInfo
+    field: emergency_contact_name
+    type: text
+    meta:
+      collection: EmployeePersonalInfo
+      conditions: null
+      display: null
+      display_options: null
+      field: emergency_contact_name
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Emergency contact name
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: emergency_contact_name
+      table: EmployeePersonalInfo
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: EmployeePersonalInfo
+    field: cnic
+    type: text
+    meta:
+      collection: EmployeePersonalInfo
+      conditions: null
+      display: null
+      display_options: null
+      field: cnic
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Cnic
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: cnic
+      table: EmployeePersonalInfo
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: EmployeePersonalInfo
+    field: ntn
+    type: text
+    meta:
+      collection: EmployeePersonalInfo
+      conditions: null
+      display: null
+      display_options: null
+      field: ntn
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Ntn
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: ntn
+      table: EmployeePersonalInfo
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: EmployeePersonalInfo
+    field: date_of_birth
+    type: date
+    meta:
+      collection: EmployeePersonalInfo
+      conditions: null
+      display: null
+      display_options: null
+      field: date_of_birth
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Date of birth
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: date_of_birth
+      table: EmployeePersonalInfo
+      data_type: date
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: EmployeePersonalInfo
+    field: country
+    type: text
+    meta:
+      collection: EmployeePersonalInfo
+      conditions: null
+      display: null
+      display_options: null
+      field: country
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Country
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: country
+      table: EmployeePersonalInfo
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: EmployeePersonalInfo
+    field: city_area
+    type: text
+    meta:
+      collection: EmployeePersonalInfo
+      conditions: null
+      display: null
+      display_options: null
+      field: city_area
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: City / area
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: city_area
+      table: EmployeePersonalInfo
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: EmployeePersonalInfo
+    field: address_line
+    type: text
+    meta:
+      collection: EmployeePersonalInfo
+      conditions: null
+      display: null
+      display_options: null
+      field: address_line
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Address line
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: address_line
+      table: EmployeePersonalInfo
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Expense
+    field: employee_id
+    type: integer
+    meta:
+      collection: Expense
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{EmployeeName}} ({{email}})'
+      field: employee_id
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{EmployeeName}} ({{email}})'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: employee_id
+      table: Expense
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Employee
+      foreign_key_column: id
+  - collection: InternalCost
+    field: FromProject
+    type: integer
+    meta:
+      collection: InternalCost
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Name}} — {{Status}}'
+      field: FromProject
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Name}} — {{Status}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: FromProject
+      table: InternalCost
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Project
+      foreign_key_column: id
+  - collection: InternalCost
+    field: ToProject
+    type: integer
+    meta:
+      collection: InternalCost
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Name}} — {{Status}}'
+      field: ToProject
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Name}} — {{Status}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: ToProject
+      table: InternalCost
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Project
+      foreign_key_column: id
+  - collection: InternalCost
+    field: Currency
+    type: integer
+    meta:
+      collection: InternalCost
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{CurrencyCode}} — {{Name}}'
+      field: Currency
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{CurrencyCode}} — {{Name}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Currency
+      table: InternalCost
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Currency
+      foreign_key_column: id
+  - collection: InternalCost
+    field: id
+    type: integer
+    meta:
+      collection: InternalCost
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: 10
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: InternalCost
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: true
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: InternalCost
+    field: Date
+    type: date
+    meta:
+      collection: InternalCost
+      conditions: null
+      display: null
+      display_options: null
+      field: Date
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: 30
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Date
+      table: InternalCost
+      data_type: date
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: InternalCost
+    field: Amount
+    type: integer
+    meta:
+      collection: InternalCost
+      conditions: null
+      display: null
+      display_options: null
+      field: Amount
+      group: null
+      hidden: false
+      interface: input-decimal
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: 40
+      special: null
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Amount
+      table: InternalCost
+      data_type: numeric
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Invoice
+    field: id
+    type: integer
+    meta:
+      collection: Invoice
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Id
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: Invoice
+      data_type: integer
+      default_value: nextval('invoice_id_counter'::regclass)
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Invoice
+    field: OriginAccount
+    type: integer
+    meta:
+      collection: Invoice
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Name}} [{{LegalEntity.Name}}]'
+      field: OriginAccount
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Name}} [{{LegalEntity.Name}}]'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Origin Account
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: OriginAccount
+      table: Invoice
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Account
+      foreign_key_column: id
+  - collection: Invoice
+    field: DestinationAccount
+    type: integer
+    meta:
+      collection: Invoice
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Name}} [{{LegalEntity.Name}}]'
+      field: DestinationAccount
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Name}} [{{LegalEntity.Name}}]'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Destination Account
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: DestinationAccount
+      table: Invoice
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Account
+      foreign_key_column: id
+  - collection: Invoice
+    field: Description
+    type: text
+    meta:
+      collection: Invoice
+      conditions: null
+      display: null
+      display_options: null
+      field: Description
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Description
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Description
+      table: Invoice
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Invoice
+    field: SentDate
+    type: date
+    meta:
+      collection: Invoice
+      conditions: null
+      display: null
+      display_options: null
+      field: SentDate
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Sent Date
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: SentDate
+      table: Invoice
+      data_type: date
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Invoice
+    field: Currency
+    type: integer
+    meta:
+      collection: Invoice
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{CurrencyCode}} — {{Name}}'
+      field: Currency
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{CurrencyCode}} — {{Name}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Currency
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Currency
+      table: Invoice
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Currency
+      foreign_key_column: id
+  - collection: Invoice
+    field: Amount
+    type: integer
+    meta:
+      collection: Invoice
+      conditions: null
+      display: null
+      display_options: null
+      field: Amount
+      group: null
+      hidden: false
+      interface: input-decimal
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Amount
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Amount
+      table: Invoice
+      data_type: numeric
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Invoice
+    field: Status
+    type: text
+    meta:
+      collection: Invoice
+      conditions: null
+      display: null
+      display_options: null
+      field: Status
+      group: null
+      hidden: false
+      interface: select-dropdown
+      note: null
+      options:
+        allowOther: true
+        choices:
+          - text: Draft
+            value: Draft
+          - text: Sent
+            value: Sent
+          - text: Paid
+            value: Paid
+          - text: Overdue
+            value: Overdue
+          - text: Cancelled
+            value: Cancelled
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Status
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Status
+      table: Invoice
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Invoice
+    field: DueDate
+    type: date
+    meta:
+      collection: Invoice
+      conditions: null
+      display: null
+      display_options: null
+      field: DueDate
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Due Date
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: DueDate
+      table: Invoice
+      data_type: date
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Invoice
+    field: PaymentDate
+    type: date
+    meta:
+      collection: Invoice
+      conditions: null
+      display: null
+      display_options: null
+      field: PaymentDate
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Payment Date
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: PaymentDate
+      table: Invoice
+      data_type: date
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Invoice
+    field: Project
+    type: integer
+    meta:
+      collection: Invoice
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Name}} — {{Status}}'
+      field: Project
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Name}} — {{Status}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Project
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Project
+      table: Invoice
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Project
+      foreign_key_column: id
+  - collection: Journal
+    field: id
+    type: integer
+    meta:
+      collection: Journal
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Id
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: Journal
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Journal
+    field: ReferenceID
+    type: integer
+    meta:
+      collection: Journal
+      conditions: null
+      display: null
+      display_options: null
+      field: ReferenceID
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Reference ID
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: ReferenceID
+      table: Journal
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Journal
+    field: ReferenceType
+    type: text
+    meta:
+      collection: Journal
+      conditions: null
+      display: null
+      display_options: null
+      field: ReferenceType
+      group: null
+      hidden: false
+      interface: select-dropdown
+      note: null
+      options:
+        choices:
+          - text: Invoice
+            value: Invoice
+          - text: Transaction
+            value: Transaction
+          - text: BankStatement
+            value: BankStatement
+          - text: Expense
+            value: Expense
+          - text: Allocation
+            value: Allocation
+          - text: Accruals
+            value: Accruals
+          - text: InternalCost
+            value: InternalCost
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Reference Type
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: ReferenceType
+      table: Journal
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Journal
+    field: EntryType
+    type: text
+    meta:
+      collection: Journal
+      conditions: null
+      display: null
+      display_options: null
+      field: EntryType
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Entry Type
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: EntryType
+      table: Journal
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Journal
+    field: ResourceURL
+    type: text
+    meta:
+      collection: Journal
+      conditions: null
+      display: null
+      display_options: null
+      field: ResourceURL
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Resource URL
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: ResourceURL
+      table: Journal
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Journal
+    field: document_file
+    type: text
+    meta:
+      collection: Journal
+      conditions: null
+      display: null
+      display_options: null
+      field: document_file
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Document File
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: document_file
+      table: Journal
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Leaves
+    field: Employee
+    type: integer
+    meta:
+      collection: Leaves
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{EmployeeName}} ({{email}})'
+      field: Employee
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{EmployeeName}} ({{email}})'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Employee
+      table: Leaves
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Employee
+      foreign_key_column: id
+  - collection: LegalEntity
+    field: id
+    type: integer
+    meta:
+      collection: LegalEntity
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Id
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: LegalEntity
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: LegalEntity
+    field: Name
+    type: text
+    meta:
+      collection: LegalEntity
+      conditions: null
+      display: null
+      display_options: null
+      field: Name
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Name
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Name
+      table: LegalEntity
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: LegalEntity
+    field: Type
+    type: text
+    meta:
+      collection: LegalEntity
+      conditions: null
+      display: null
+      display_options: null
+      field: Type
+      group: null
+      hidden: false
+      interface: select-dropdown
+      note: null
+      options:
+        allowOther: true
+        choices:
+          - text: Client
+            value: Client
+          - text: Partner
+            value: Partner
+          - text: Employee
+            value: Employee
+          - text: Executive
+            value: Executive
+          - text: Internal
+            value: Internal
+          - text: Vendor
+            value: Vendor
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Type
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Type
+      table: LegalEntity
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: LegalEntity
+    field: CountryLocation
+    type: integer
+    meta:
+      collection: LegalEntity
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Region}} — {{Description}}'
+      field: CountryLocation
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Region}} — {{Description}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Country / Location
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: CountryLocation
+      table: LegalEntity
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: CountryLocation
+      foreign_key_column: id
+  - collection: LegalEntity
+    field: Contact
+    type: integer
+    meta:
+      collection: LegalEntity
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Firstname}} {{LastName}}'
+      field: Contact
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Firstname}} {{LastName}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Contact
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Contact
+      table: LegalEntity
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Contact
+      foreign_key_column: id
+  - collection: LegalEntity
+    field: DocumentFolder
+    type: text
+    meta:
+      collection: LegalEntity
+      conditions: null
+      display: null
+      display_options: null
+      field: DocumentFolder
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Document Folder
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: DocumentFolder
+      table: LegalEntity
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: LegalEntity
+    field: Project
+    type: integer
+    meta:
+      collection: LegalEntity
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Name}} — {{Status}}'
+      field: Project
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Name}} — {{Status}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Project
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Project
+      table: LegalEntity
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Project
+      foreign_key_column: id
+  - collection: ProductDependencies
+    field: ParentSKU
+    type: string
+    meta:
+      collection: ProductDependencies
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{id}}'
+      field: ParentSKU
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{id}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: ParentSKU
+      table: ProductDependencies
+      data_type: character varying
+      default_value: null
+      max_length: 100
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: product_catalogue
+      foreign_key_column: sku
+  - collection: ProductDependencies
+    field: ChildSKU
+    type: string
+    meta:
+      collection: ProductDependencies
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{id}}'
+      field: ChildSKU
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{id}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: ChildSKU
+      table: ProductDependencies
+      data_type: character varying
+      default_value: null
+      max_length: 100
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: product_catalogue
+      foreign_key_column: sku
+  - collection: ProfitCenter
+    field: id
+    type: integer
+    meta:
+      collection: ProfitCenter
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Id
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: ProfitCenter
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: ProfitCenter
+    field: Name
+    type: text
+    meta:
+      collection: ProfitCenter
+      conditions: null
+      display: null
+      display_options: null
+      field: Name
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Name
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Name
+      table: ProfitCenter
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Project
+    field: id
+    type: integer
+    meta:
+      collection: Project
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Id
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: Project
+      data_type: integer
+      default_value: nextval('project_id_seq'::regclass)
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Project
+    field: Name
+    type: text
+    meta:
+      collection: Project
+      conditions: null
+      display: null
+      display_options: null
+      field: Name
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Name
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Name
+      table: Project
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Project
+    field: ProfitCenter
+    type: integer
+    meta:
+      collection: Project
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Name}}'
+      field: ProfitCenter
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Name}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Profit Center
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: ProfitCenter
+      table: Project
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: ProfitCenter
+      foreign_key_column: id
+  - collection: Project
+    field: Description
+    type: text
+    meta:
+      collection: Project
+      conditions: null
+      display: null
+      display_options: null
+      field: Description
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Description
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Description
+      table: Project
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Project
+    field: Status
+    type: unknown
+    meta:
+      collection: Project
+      conditions: null
+      display: null
+      display_options: null
+      field: Status
+      group: null
+      hidden: false
+      interface: select-dropdown
+      note: null
+      options:
+        allowOther: true
+        choices:
+          - text: Active
+            value: Active
+          - text: Inactive
+            value: Inactive
+          - text: Archived
+            value: Archived
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Status
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Status
+      table: Project
+      data_type: project_status_final
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Project
+    field: legal_entity_id
+    type: integer
+    meta:
+      collection: Project
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Name}} ({{Type}})'
+      field: legal_entity_id
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Name}} ({{Type}})'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Legal Entity
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: legal_entity_id
+      table: Project
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: LegalEntity
+      foreign_key_column: id
+  - collection: QuoteLineItems
+    field: QuoteID
+    type: string
+    meta:
+      collection: QuoteLineItems
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{id}}'
+      field: QuoteID
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{id}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: QuoteID
+      table: QuoteLineItems
+      data_type: character varying
+      default_value: null
+      max_length: 50
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Quotes
+      foreign_key_column: QuoteID
+  - collection: QuoteLineItems
+    field: ProductSKU
+    type: string
+    meta:
+      collection: QuoteLineItems
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{id}}'
+      field: ProductSKU
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{id}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: ProductSKU
+      table: QuoteLineItems
+      data_type: character varying
+      default_value: null
+      max_length: 100
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: product_catalogue
+      foreign_key_column: sku
+  - collection: Quotes
+    field: DealID
+    type: integer
+    meta:
+      collection: Quotes
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{id}}'
+      field: DealID
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{id}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: DealID
+      table: Quotes
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Deal
+      foreign_key_column: id
+  - collection: Role
+    field: id
+    type: integer
+    meta:
+      collection: Role
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Id
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: Role
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: true
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Role
+    field: Name
+    type: text
+    meta:
+      collection: Role
+      conditions: null
+      display: null
+      display_options: null
+      field: Name
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Role name
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Name
+      table: Role
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: RolePermissions
+    field: Role
+    type: integer
+    meta:
+      collection: RolePermissions
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Name}}'
+      field: Role
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Name}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: App role
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Role
+      table: RolePermissions
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Role
+      foreign_key_column: id
+  - collection: RolePermissions
+    field: id
+    type: integer
+    meta:
+      collection: RolePermissions
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Id
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: RolePermissions
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: true
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: RolePermissions
+    field: TableName
+    type: text
+    meta:
+      collection: RolePermissions
+      conditions: null
+      display: null
+      display_options: null
+      field: TableName
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Table / collection name
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: TableName
+      table: RolePermissions
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: RolePermissions
+    field: Create
+    type: boolean
+    meta:
+      collection: RolePermissions
+      conditions: null
+      display: null
+      display_options: null
+      field: Create
+      group: null
+      hidden: false
+      interface: boolean
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Create
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Create
+      table: RolePermissions
+      data_type: boolean
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: RolePermissions
+    field: Read
+    type: boolean
+    meta:
+      collection: RolePermissions
+      conditions: null
+      display: null
+      display_options: null
+      field: Read
+      group: null
+      hidden: false
+      interface: boolean
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Read
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Read
+      table: RolePermissions
+      data_type: boolean
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: RolePermissions
+    field: Update
+    type: boolean
+    meta:
+      collection: RolePermissions
+      conditions: null
+      display: null
+      display_options: null
+      field: Update
+      group: null
+      hidden: false
+      interface: boolean
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Update
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Update
+      table: RolePermissions
+      data_type: boolean
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: RolePermissions
+    field: Delete
+    type: boolean
+    meta:
+      collection: RolePermissions
+      conditions: null
+      display: null
+      display_options: null
+      field: Delete
+      group: null
+      hidden: false
+      interface: boolean
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Delete
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Delete
+      table: RolePermissions
+      data_type: boolean
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: RolePermissions
+    field: AccessCondition
+    type: text
+    meta:
+      collection: RolePermissions
+      conditions: null
+      display: null
+      display_options: null
+      field: AccessCondition
+      group: null
+      hidden: false
+      interface: input-multiline
+      note: null
+      options:
+        placeholder: PostgreSQL condition (optional)
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Access condition
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: AccessCondition
+      table: RolePermissions
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Seniority
+    field: id
+    type: integer
+    meta:
+      collection: Seniority
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Id
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: Seniority
+      data_type: integer
+      default_value: nextval('"Seniority_id_seq"'::regclass)
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: true
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Seniority
+    field: Description
+    type: text
+    meta:
+      collection: Seniority
+      conditions: null
+      display: null
+      display_options: null
+      field: Description
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Description
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Description
+      table: Seniority
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Seniority
+    field: Dayrate
+    type: integer
+    meta:
+      collection: Seniority
+      conditions: null
+      display: null
+      display_options: null
+      field: Dayrate
+      group: null
+      hidden: false
+      interface: input-decimal
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Day rate
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Dayrate
+      table: Seniority
+      data_type: numeric
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Task
+    field: Project
+    type: integer
+    meta:
+      collection: Task
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Name}} — {{Status}}'
+      field: Project
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Name}} — {{Status}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Project
+      table: Task
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Project
+      foreign_key_column: id
+  - collection: TimeEntry
+    field: Employee
+    type: integer
+    meta:
+      collection: TimeEntry
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{EmployeeName}} ({{email}})'
+      field: Employee
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{EmployeeName}} ({{email}})'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Employee
+      table: TimeEntry
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Employee
+      foreign_key_column: id
+  - collection: TimeEntry
+    field: Project
+    type: integer
+    meta:
+      collection: TimeEntry
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Name}} — {{Status}}'
+      field: Project
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Name}} — {{Status}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Project
+      table: TimeEntry
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Project
+      foreign_key_column: id
+  - collection: TimeEntry
+    field: Task
+    type: integer
+    meta:
+      collection: TimeEntry
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{id}}'
+      field: Task
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{id}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Task
+      table: TimeEntry
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Task
+      foreign_key_column: id
+  - collection: Transaction
+    field: id
+    type: integer
+    meta:
+      collection: Transaction
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Id
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: Transaction
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Transaction
+    field: OriginAccount
+    type: integer
+    meta:
+      collection: Transaction
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Name}} [{{LegalEntity.Name}}]'
+      field: OriginAccount
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Name}} [{{LegalEntity.Name}}]'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Origin Account
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: OriginAccount
+      table: Transaction
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Account
+      foreign_key_column: id
+  - collection: Transaction
+    field: DestinationAccount
+    type: integer
+    meta:
+      collection: Transaction
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Name}} [{{LegalEntity.Name}}]'
+      field: DestinationAccount
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Name}} [{{LegalEntity.Name}}]'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Destination Account
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: DestinationAccount
+      table: Transaction
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Account
+      foreign_key_column: id
+  - collection: Transaction
+    field: Amount
+    type: integer
+    meta:
+      collection: Transaction
+      conditions: null
+      display: null
+      display_options: null
+      field: Amount
+      group: null
+      hidden: false
+      interface: input-decimal
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Amount
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Amount
+      table: Transaction
+      data_type: numeric
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Transaction
+    field: Currency
+    type: integer
+    meta:
+      collection: Transaction
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{CurrencyCode}} — {{Name}}'
+      field: Currency
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{CurrencyCode}} — {{Name}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Currency
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Currency
+      table: Transaction
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Currency
+      foreign_key_column: id
+  - collection: Transaction
+    field: Description
+    type: text
+    meta:
+      collection: Transaction
+      conditions: null
+      display: null
+      display_options: null
+      field: Description
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Description
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Description
+      table: Transaction
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Transaction
+    field: Date
+    type: date
+    meta:
+      collection: Transaction
+      conditions: null
+      display: null
+      display_options: null
+      field: Date
+      group: null
+      hidden: false
+      interface: datetime
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Date
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Date
+      table: Transaction
+      data_type: date
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: Transaction
+    field: Project
+    type: integer
+    meta:
+      collection: Transaction
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Name}} — {{Status}}'
+      field: Project
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Name}} — {{Status}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: Project
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: Project
+      table: Transaction
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Project
+      foreign_key_column: id
+  - collection: UserToRole
+    field: RoleName
+    type: integer
+    meta:
+      collection: UserToRole
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Name}}'
+      field: RoleName
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Name}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations:
+        - language: en-US
+          translation: App role
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: RoleName
+      table: UserToRole
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Role
+      foreign_key_column: id
+  - collection: UserToRole
+    field: id
+    type: integer
+    meta:
+      collection: UserToRole
+      conditions: null
+      display: null
+      display_options: null
+      field: id
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Id
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: id
+      table: UserToRole
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: true
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: UserToRole
+    field: User
+    type: text
+    meta:
+      collection: UserToRole
+      conditions: null
+      display: null
+      display_options: null
+      field: User
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        placeholder: Lowercase email — must match IdP verified email & RLS app.user_email
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: User (email)
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: User
+      table: UserToRole
+      data_type: text
+      default_value: null
+      max_length: null
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: department
+    field: departmentid
+    type: integer
+    meta:
+      collection: department
+      conditions: null
+      display: null
+      display_options: null
+      field: departmentid
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options: {}
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Department ID
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: departmentid
+      table: department
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: true
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: department
+    field: departmentname
+    type: string
+    meta:
+      collection: department
+      conditions: null
+      display: null
+      display_options: null
+      field: departmentname
+      group: null
+      hidden: false
+      interface: input
+      note: null
+      options:
+        trim: true
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special: null
+      translations:
+        - language: en-US
+          translation: Department name
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: departmentname
+      table: department
+      data_type: character varying
+      default_value: null
+      max_length: 100
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: false
+      is_unique: true
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: null
+      foreign_key_column: null
+  - collection: offer_line_items
+    field: offer_id
+    type: integer
+    meta:
+      collection: offer_line_items
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{id}}'
+      field: offer_id
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{id}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: offer_id
+      table: offer_line_items
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: offers
+      foreign_key_column: offer_id
+  - collection: offer_line_items
+    field: sku
+    type: string
+    meta:
+      collection: offer_line_items
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{id}}'
+      field: sku
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{id}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: sku
+      table: offer_line_items
+      data_type: character varying
+      default_value: null
+      max_length: 100
+      numeric_precision: null
+      numeric_scale: null
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: product_catalogue
+      foreign_key_column: sku
+  - collection: ticket_updates
+    field: ticket_id
+    type: integer
+    meta:
+      collection: ticket_updates
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{id}}'
+      field: ticket_id
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{id}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: ticket_id
+      table: ticket_updates
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: tickets
+      foreign_key_column: ticket_id
+  - collection: tickets
+    field: project_id
+    type: integer
+    meta:
+      collection: tickets
+      conditions: null
+      display: related-values
+      display_options:
+        template: '{{Name}} — {{Status}}'
+      field: project_id
+      group: null
+      hidden: false
+      interface: select-dropdown-m2o
+      note: null
+      options:
+        template: '{{Name}} — {{Status}}'
+      readonly: false
+      required: false
+      searchable: true
+      sort: null
+      special:
+        - m2o
+      translations: null
+      validation: null
+      validation_message: null
+      width: full
+    schema:
+      name: project_id
+      table: tickets
+      data_type: integer
+      default_value: null
+      max_length: null
+      numeric_precision: 32
+      numeric_scale: 0
+      is_nullable: true
+      is_unique: false
+      is_indexed: false
+      is_primary_key: false
+      is_generated: false
+      generation_expression: null
+      has_auto_increment: false
+      foreign_key_table: Project
+      foreign_key_column: id
+relations:
+  - collection: Employee
+    field: DefaultProjectId
+    related_collection: Project
+    meta:
+      junction_field: null
+      many_collection: Employee
+      many_field: DefaultProjectId
+      one_allowed_collections: null
+      one_collection: Project
+      one_collection_field: null
+      one_deselect_action: nullify
+      one_field: null
+      sort_field: null
+    schema:
+      table: Employee
+      column: DefaultProjectId
+      foreign_key_table: Project
+      foreign_key_column: id
+      constraint_name: employee_defaultprojectid_foreign
+      on_update: NO ACTION
+      on_delete: NO ACTION

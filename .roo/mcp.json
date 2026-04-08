@@ -43,7 +43,7 @@
 			}
 		},
 		"bmad": {
-			"comment": "BMAD Method MCP - business model architecture design documentation",
+			"comment": "BMAD Method MCP v6.2.0 - BMADMonorepoEFInternalTools. Agents: analyst, architect, dev, pm, qa, sm, ux-designer, tech-writer. Workflows: create-prd, create-architecture, create-epics-and-stories, dev-story, sprint-planning, sprint-status, retrospective, document-project, generate-project-context, qa-generate-e2e-tests, quick-flow.",
 			"command": "npx",
 			"args": [
 				"-y",
@@ -51,18 +51,26 @@
 				"mcp"
 			],
 			"env": {
-				"BMAD_DOCS_PATH": "${workspaceFolder}/docs/bmad"
+				"BMAD_ROOT": "${workspaceFolder}/_bmad",
+				"BMAD_OUTPUT": "${workspaceFolder}/_bmad-output",
+				"BMAD_PLANNING_ARTIFACTS": "${workspaceFolder}/_bmad-output/planning-artifacts",
+				"BMAD_IMPLEMENTATION_ARTIFACTS": "${workspaceFolder}/_bmad-output/implementation-artifacts",
+				"BMAD_PROJECT_KNOWLEDGE": "${workspaceFolder}/docs",
+				"BMAD_PROJECT_NAME": "BMADMonorepoEFInternalTools",
+				"BMAD_USER": "Andreas"
 			}
 		},
 		"speckit": {
-			"comment": "GitHub SpecKit MCP - implementation specs and API contracts",
+			"comment": "GitHub SpecKit MCP - implementation specs and API contracts. Specs live in _bmad-output/planning-artifacts and _bmad-output/implementation-artifacts.",
 			"command": "npx",
 			"args": [
 				"-y",
 				"@github/spec-kit-mcp"
 			],
 			"env": {
-				"SPECS_PATH": "${workspaceFolder}/docs/specs",
+				"SPECS_PATH": "${workspaceFolder}/_bmad-output",
+				"PLANNING_ARTIFACTS": "${workspaceFolder}/_bmad-output/planning-artifacts",
+				"IMPLEMENTATION_ARTIFACTS": "${workspaceFolder}/_bmad-output/implementation-artifacts",
 				"VAULT_ADDR": "https://45.88.223.83:31313",
 				"VAULT_TOKEN": "hvs.CAESIC0nSYZlc92KbjE36r_Vncz-MznLpY0eMplhN_V6FrVaGh4KHGh2cy5jU3Q2djJMWjc2bWJPYkZhN3ZSN1JBcUc",
 				"VAULT_SECRET_PATH": "cubbyhole/internal-erp/db",

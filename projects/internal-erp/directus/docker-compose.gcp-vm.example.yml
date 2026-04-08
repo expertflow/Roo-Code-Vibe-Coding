@@ -1,0 +1,48 @@
+# Example: Directus on a GCP Compute Engine VM with Cloud SQL Auth Proxy as a sidecar.
+# Copy to docker-compose.gcp-vm.yml (gitignored) and set variables / instance name.
+#
+# Prerequisites:
+# - VM service account: roles/cloudsql.client
+# - Replace CLOUD_SQL_INSTANCE with PROJECT:REGION:INSTANCE
+# - Provide .env with KEY, SECRET, DB_*, PUBLIC_URL, and CLOUD_SQL_INSTANCE=project:region:instance
+#   (Compose reads .env for ${CLOUD_SQL_INSTANCE} — see .env.gcp-vm.example)
+#
+# On the VM:
+#   cp docker-compose.gcp-vm.example.yml docker-compose.gcp-vm.yml
+#   cp .env.gcp-vm.example .env && edit .env
+#   docker compose -f docker-compose.gcp-vm.yml build && docker compose -f docker-compose.gcp-vm.yml up -d
+
+services:
+  cloud-sql-proxy:
+    image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.14.2
+    command:
+      - "--address=0.0.0.0"
+      - "--port=5432"
+      - "${CLOUD_SQL_INSTANCE}"
+    restart: unless-stopped
+    # No ports published to host — only reachable on the Docker network.
+
+  directus:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: internal-erp-directus:11.12.0-regnamespace-patch
+    depends_on:
+      - cloud-sql-proxy
+    ports:
+      - "8055:8055"
+    env_file:
+      - .env
+    environment:
+      # Override local-only host: use the proxy service name on the compose network.
+      DB_HOST: cloud-sql-proxy
+      DB_PORT: "5432"
+    volumes:
+      - ./uploads:/directus/uploads
+      - ./extensions:/directus/extensions
+    working_dir: /directus
+    command:
+      - sh
+      - -c
+      - (node cli.js bootstrap || node cli.js database migrate:latest) && pm2-runtime start ecosystem.config.cjs
+    restart: unless-stopped

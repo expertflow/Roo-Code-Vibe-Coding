@@ -1,0 +1,12 @@
+{
+  "name": "directus-extension-bank-statement-limit",
+  "version": "1.0.0",
+  "description": "Enforce 0-2 BankStatement per Transaction limit (Story 3.2 / ADR-05)",
+  "type": "module",
+  "directus:extension": {
+    "type": "hook",
+    "path": "index.js",
+    "source": "index.js",
+    "host": "^11.0.0"
+  }
+}

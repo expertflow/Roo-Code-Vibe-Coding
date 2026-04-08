@@ -1,0 +1,3 @@
+UPDATE directus.directus_settings 
+SET module_bar = '[{"type": "module", "id": "content", "enabled": true}, {"type": "module", "id": "visual", "enabled": false}, {"type": "module", "id": "users", "enabled": true}, {"type": "module", "id": "files", "enabled": true}, {"type": "module", "id": "insights", "enabled": true}, {"type": "link", "id": "docs", "name": "Documentation", "url": "https://docs.directus.io", "icon": "help", "enabled": true}, {"type": "module", "id": "settings", "enabled": true, "locked": true}, {"type": "module", "id": "bank-statement-import-ui", "enabled": true}, {"type": "module", "id": "finance-dashboard", "enabled": true}]'::json 
+WHERE id = 1;

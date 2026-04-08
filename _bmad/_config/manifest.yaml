@@ -1,0 +1,23 @@
+installation:
+  version: 6.2.0
+  installDate: 2026-03-15T14:53:46.165Z
+  lastUpdated: 2026-04-08T14:32:40.337Z
+modules:
+  - name: core
+    version: 6.2.0
+    installDate: 2026-03-15T14:53:46.165Z
+    lastUpdated: 2026-04-08T14:32:40.337Z
+    source: built-in
+    npmPackage: null
+    repoUrl: null
+  - name: bmm
+    version: 6.2.0
+    installDate: 2026-03-15T14:53:46.088Z
+    lastUpdated: 2026-04-08T14:32:40.337Z
+    source: built-in
+    npmPackage: null
+    repoUrl: null
+ides:
+  - cursor
+  - vscode
+  - antigravity

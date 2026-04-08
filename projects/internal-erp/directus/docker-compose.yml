@@ -1,0 +1,31 @@
+# Expertflow Internal ERP — Directus (local dev)
+# Pinned base (not :11): latest 11.x can fail first bootstrap on busy existing Postgres with
+# TypeError ... reading 'primary' during migration "Add Project Owner". See README § Troubleshooting.
+# Image is built from ./Dockerfile (patches mixed-case Postgres schema / regnamespace). Bump base in Dockerfile; align Cloud Run.
+services:
+  directus:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: internal-erp-directus:11.12.0-regnamespace-patch
+    ports:
+      - "8055:8055"
+    env_file:
+      - .env
+    volumes:
+      - ./uploads:/directus/uploads
+      - ./extensions:/directus/extensions
+      # Story 3-1: live-edit parsers without image rebuild (image also COPYs this path).
+      - ./bank-import:/directus/bank-import
+    # Linux / Docker Engine: reach host-published Cloud SQL Auth Proxy (127.0.0.1:5432)
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # Hybrid start (shared DB):
+    # - Fresh DB: `bootstrap` installs system tables + admin; `migrate:latest` is skipped (|| branch).
+    # - Already bootstrapped: `bootstrap` errors "Database is already installed" → run `migrate:latest`.
+    # Then start like the official image (pm2 + cli.js start).
+    working_dir: /directus
+    command:
+      - sh
+      - -c
+      - (node cli.js bootstrap || node cli.js database migrate:latest) && pm2-runtime start ecosystem.config.cjs

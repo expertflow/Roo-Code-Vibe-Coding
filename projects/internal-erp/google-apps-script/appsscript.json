@@ -1,0 +1,44 @@
+{
+  "timeZone": "Europe/Zurich",
+  "runtimeVersion": "V8",
+  "dependencies": {},
+  "webapp": {
+    "access": "ANYONE_ANONYMOUS",
+    "executeAs": "USER_DEPLOYING"
+  },
+  "exceptionLogging": "STACKDRIVER",
+  "urlFetchWhitelist": [
+    "https://34.65.200.86/"
+  ],
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/calendar.addons.execute",
+    "https://www.googleapis.com/auth/calendar.readonly",
+    "https://www.googleapis.com/auth/script.external_request",
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/calendar.addons.current.event.read",
+    "https://www.googleapis.com/auth/script.locale",
+    "https://www.googleapis.com/auth/sqlservice",
+    "https://www.googleapis.com/auth/drive"
+  ],
+  "addOns": {
+    "common": {
+      "name": "Expertflow Time Tracker",
+      "logoUrl": "https://www.gstatic.com/images/icons/material/system/1x/timer_black_48dp.png",
+      "useLocaleFromApp": true,
+      "homepageTrigger": {
+        "runFunction": "onHomepage",
+        "enabled": true
+      }
+    },
+    "calendar": {
+      "homepageTrigger": {
+        "runFunction": "onHomepage",
+        "enabled": true
+      },
+      "currentEventAccess": "READ",
+      "eventOpenTrigger": {
+        "runFunction": "onCalendarEventOpen"
+      }
+    }
+  }
+}

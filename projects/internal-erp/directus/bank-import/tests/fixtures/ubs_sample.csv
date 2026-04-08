@@ -1,0 +1,15 @@
+Account number:;0235 TEST;;
+IBAN:;CH00 0000 0000 0000 0000 0;
+From:;2026-03-01;
+Until:;2026-03-10;
+Opening balance:;1000.00;
+Closing balance:;950.00;
+Valued in:;USD;
+Numbers of transactions in this period:;4;
+
+Trade date;Trade time;Booking date;Value date;Currency;Debit;Credit;Individual amount;Balance;Transaction no.;Description1;Description2;Description3;Footnotes;
+2026-03-10;;2026-03-10;2026-03-10;USD;-100.00;;;900.00;TXN-SINGLE;"Counterparty A;US NY";"Ref; order";"Reason: test";;
+2026-03-09;;2026-03-09;2026-03-09;USD;;50.00;;950.00;TXN-CRED;Incoming;credit;Reason pay;;
+2026-03-08;;2026-03-08;2026-03-08;USD;-500.00;;;900.00;TXN-MULTI;Batch summary;;;;;
+;;;;USD;;;-200.00;;TXN-MULTI;Split one;;;;
+;;;;USD;;;-300.00;;TXN-MULTI;Split two;;;;

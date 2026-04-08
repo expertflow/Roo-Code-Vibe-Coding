@@ -1,0 +1,13 @@
+{
+	"name": "directus-extension-bank-statement-correspondant-match",
+	"version": "1.0.0",
+	"description": "Auto-match CorrespondantBank based on description prefix",
+	"directus:extension": {
+		"type": "hook",
+		"path": "index.js",
+		"source": "index.js",
+		"host": "^10.10.0"
+	},
+	"scripts": {},
+	"dependencies": {}
+}

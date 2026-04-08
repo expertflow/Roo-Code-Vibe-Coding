@@ -1,0 +1,27 @@
+{
+  "name": "directus-extension-crm-gmail-sync",
+  "version": "1.0.0",
+  "description": "Expertflow CRM integration: Syncs Gmail messages to Journal collection and moves attachments to GDrive.",
+  "icon": "mail",
+  "type": "module",
+  "main": "index.js",
+  "keywords": [
+    "directus",
+    "extension",
+    "hook",
+    "gmail",
+    "gdrive",
+    "crm"
+  ],
+  "author": "Expertflow",
+  "license": "MIT",
+  "directus:extension": {
+    "type": "hook",
+    "path": "index.js",
+    "source": "index.js",
+    "host": "^11.0.0"
+  },
+  "dependencies": {
+    "googleapis": "^126.0.0"
+  }
+}

@@ -1,0 +1,166 @@
+/**
+ * Core submission route — handles form parsing, Directus file upload, and DB inserts.
+ * Direct PostgreSQL interaction enclosed in a transaction.
+ */
+
+const express = require('express');
+const router = express.Router();
+const multer = require('multer');
+const { requireAuth } = require('../lib/auth');
+const { getPool, SCHEMA } = require('../lib/db');
+
+// Use memory storage for quick pass-through to Directus
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+});
+
+/**
+ * Helper to generate a unique filename
+ */
+function generateFilename(prefix, originalName) {
+  const ext = originalName.substring(originalName.lastIndexOf('.')) || '.jpg';
+  const dateStr = new Date().toISOString().split('T')[0];
+  const rand = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+  return `${dateStr}_receipt_${prefix}_${rand}${ext}`;
+}
+
+router.post('/submit', requireAuth, upload.single('receipt'), async (req, res, next) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'Receipt image is required (multipart file "receipt")' });
+  }
+
+  const { type, amount, currency_id, project_id, description, account_id } = req.body;
+  const numAmount = parseFloat(amount);
+
+  if (!['invoice', 'transaction'].includes(type) || isNaN(numAmount) || !project_id || !description) {
+    return res.status(400).json({ error: 'Missing or invalid required fields' });
+  }
+
+  const client = await getPool().connect();
+
+  try {
+    await client.query(`SET search_path TO "${SCHEMA}"`);
+    
+    // 1. Resolve employee entity and personal account (first account, ordered by id ASC)
+    const empDataRes = await client.query(
+      `SELECT e.id as emp_id, le.id as le_id, a.id as personal_account_id, a."Currency" as personal_currency_id
+       FROM "Employee" e
+       JOIN "LegalEntity" le ON le."Name" = e."EmployeeName" AND le."Type" IN ('Employee', 'Executive')
+       LEFT JOIN "Account" a ON a."LegalEntity" = le.id
+       WHERE e.email ILIKE $1
+       ORDER BY a.id ASC LIMIT 1`,
+      [req.user.email]
+    );
+
+    if (empDataRes.rowCount === 0) {
+      throw new Error(`Employee record or personal Account not found for ${req.user.email}.`);
+    }
+    const emp = empDataRes.rows[0];
+    
+    if (!emp.personal_account_id || !emp.personal_currency_id) {
+      throw new Error(`Employee does not have a properly configured personal account or currency.`);
+    }
+
+    await client.query('BEGIN');
+
+    let referenceId;
+    let referenceType;
+
+    // 2. Insert Core Record
+    if (type === 'invoice') {
+      // Out of pocket: Create Invoice
+      // OriginAccount = employee account, DestinationAccount = 7 (UBS USD)
+      // Currency derived automatically from employee's first account
+      const companyAccountId = 7; // UBS USD
+      const employeeAccountId = emp.personal_account_id;
+      const actualCurrency = emp.personal_currency_id;
+
+      const invRes = await client.query(
+        `INSERT INTO "Invoice" ("OriginAccount", "DestinationAccount", "Amount", "Currency", "Project", "Description", "Status", "SentDate")
+         VALUES ($1, $2, $3, $4, $5, $6, 'Draft', CURRENT_DATE)
+         RETURNING id`,
+        [employeeAccountId, companyAccountId, numAmount, actualCurrency, project_id, description]
+      );
+      referenceId = invRes.rows[0].id;
+      referenceType = 'Invoice';
+    } else {
+      // Company card: Create Transaction
+      const idRes = await client.query('SELECT COALESCE(MAX(id), 0) + 1 AS next_id FROM "Transaction"');
+      referenceId = idRes.rows[0].next_id;
+      referenceType = 'Transaction';
+
+      if (!account_id) {
+        throw new Error('account_id is required for company card transactions');
+      }
+
+      const actualCurrency = currency_id || emp.personal_currency_id;
+
+      await client.query(
+        `INSERT INTO "Transaction" (id, "OriginAccount", "DestinationAccount", "Amount", "Currency", "Project", "Description", "Date")
+         VALUES ($1, $2, null, $3, $4, $5, $6, CURRENT_DATE)`,
+        [referenceId, account_id, numAmount, actualCurrency, project_id, description]
+      );
+    }
+
+    // 3. Upload File directly to Directus Files API
+    const filename = generateFilename(type === 'invoice' ? 'INV' : 'TXN', req.file.originalname);
+    
+    const blob = new Blob([req.file.buffer], { type: req.file.mimetype });
+    const directusFormData = new FormData();
+    directusFormData.append('file', blob, filename);
+    directusFormData.append('title', filename);
+
+    const uploadRes = await fetch('https://bs4.expertflow.com/files', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.DIRECTUS_STATIC_TOKEN}`
+      },
+      body: directusFormData
+    });
+
+    if (!uploadRes.ok) {
+      throw new Error(`Directus file upload failed: ${await uploadRes.text()}`);
+    }
+
+    const uploadData = await uploadRes.json();
+    const directusFileId = uploadData.data.id;
+
+    // 4. Create Journal Entry (id is UUID, generated by DB default or gen_random_uuid)
+    const journalRes = await client.query(
+      `INSERT INTO "Journal" ("id", "document_file")
+       VALUES (gen_random_uuid(), $1)
+       RETURNING id`,
+      [directusFileId]
+    );
+    const journalId = journalRes.rows[0].id;
+
+    // 5. Link Journal to the Reference Record via JournalLink (item stored as text to support int PKs)
+    await client.query(
+      `INSERT INTO "JournalLink" ("id", "journal_id", "collection", "item")
+       VALUES (gen_random_uuid(), $1, $2, $3)`,
+      [journalId, referenceType, String(referenceId)]
+    );
+
+    await client.query('COMMIT');
+
+    res.json({
+      success: true,
+      data: {
+        id: referenceId,
+        type: referenceType,
+        journalId,
+        fileUrl: `https://bs4.expertflow.com/assets/${directusFileId}`
+      }
+    });
+
+  } catch (err) {
+    await client.query('ROLLBACK');
+    console.error('Submit error:', err);
+    res.status(500).json({ error: err.message || 'Error processing submission' });
+  } finally {
+    client.release();
+  }
+});
+
+module.exports = router;

@@ -1,0 +1,9 @@
+DB_USER: bs4_dev
+DB_PASS: '3(Ga;lhU=:l-Fe_)'
+DB_NAME: bidstruct4
+DB_SCHEMA: BS4Prod09Feb2026
+GOOGLE_CLIENT_ID: 253025248502-uckk4cneaml2rl9giq9bu05te07mbag8.apps.googleusercontent.com
+GDRIVE_ROOT_FOLDER_ID: 0AOGnfeqGDSLhUk9PVA
+DEFAULT_ORIGIN_ACCOUNT_ID: '7'
+INSTANCE_CONNECTION_NAME: expertflowerp:europe-west6:expertflowerp1
+DIRECTUS_STATIC_TOKEN: batch_update_token_123

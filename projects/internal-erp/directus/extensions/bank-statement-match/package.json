@@ -1,0 +1,12 @@
+{
+  "name": "directus-extension-bank-statement-match",
+  "version": "1.0.0",
+  "description": "Heuristic matching of BankStatement to Transaction/Invoice (Story 3-2)",
+  "keywords": ["directus", "directus-extension", "directus-custom-hook"],
+  "directus:extension": {
+    "type": "hook",
+    "path": "index.js",
+    "source": "index.js",
+    "host": "^11.0.0"
+  }
+}

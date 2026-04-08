@@ -1,0 +1,3 @@
+# Keep directory for Docker volume; ignore uploaded files
+*
+!.gitignore

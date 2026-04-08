@@ -1,0 +1,1 @@
+ALTER TABLE "BS4Prod09Feb2026"."BankStatement" ADD COLUMN "MatchIndicator" text GENERATED ALWAYS AS (CASE WHEN "SuggestedTransaction" IS NOT NULL OR "SuggestedInvoice" IS NOT NULL THEN 'match' ELSE NULL END) STORED;

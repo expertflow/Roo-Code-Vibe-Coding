@@ -1,0 +1,1 @@
+ALTER ROLE sterile_dev BYPASSRLS;

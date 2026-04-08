@@ -1,0 +1,24 @@
+{
+  "name": "directus-extension-finance-dashboard",
+  "version": "1.0.0",
+  "description": "Finance Dashboard Module",
+  "keywords": ["directus", "directus-extension", "directus-custom-module"],
+  "type": "module",
+  "directus:extension": {
+    "type": "module",
+    "path": "dist/index.js",
+    "source": "src/index.js",
+    "host": "^11.0.0"
+  },
+  "scripts": {
+    "build": "directus-extension build"
+  },
+  "devDependencies": {
+    "@directus/extensions-sdk": "11.0.2",
+    "vue": "^3.4.21"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.2",
+    "vue-chartjs": "^5.3.0"
+  }
+}

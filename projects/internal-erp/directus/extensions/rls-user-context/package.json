@@ -1,0 +1,13 @@
+{
+  "name": "directus-extension-rls-user-context",
+  "version": "1.0.0",
+  "description": "Sets PostgreSQL SET LOCAL ROLE (RLS_SESSION_ROLE) + app.user_email for RLS (NFR13 / ADR-13)",
+  "keywords": ["directus", "directus-extension", "directus-custom-hook"],
+  "type": "module",
+  "directus:extension": {
+    "type": "hook",
+    "path": "index.js",
+    "source": "index.js",
+    "host": "^11.0.0"
+  }
+}

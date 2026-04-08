@@ -472,11 +472,67 @@ function Set-RooProfiles {
     }
 }
 
-# ---- BMAD Integration: Copy .roo/ and .clinerules ----------
+# ---- Helper: Copy a folder recursively if it exists --------
+function Copy-FolderIfExists {
+    param(
+        [string]$srcFolder,
+        [string]$destFolder,
+        [string]$label
+    )
+    if (Test-Path $srcFolder) {
+        try {
+            if (-not (Test-Path $destFolder)) {
+                New-Item -ItemType Directory -Path $destFolder -Force | Out-Null
+            }
+            Copy-Item -Path "$srcFolder\*" -Destination $destFolder -Recurse -Force
+            Write-OK "Copied $label -> $destFolder"
+            return $true
+        }
+        catch {
+            Write-Fail "Failed to copy $label : $($_.Exception.Message)"
+            return $false
+        }
+    }
+    else {
+        Write-Warn "$label not found at: $srcFolder (skipping)"
+        return $true   # non-fatal: folder simply doesn't exist yet
+    }
+}
+
+# ---- Helper: Copy a single file if it exists ----------------
+function Copy-FileIfExists {
+    param(
+        [string]$srcFile,
+        [string]$destFile,
+        [string]$label,
+        [switch]$SkipIfDestExists
+    )
+    if (Test-Path $srcFile) {
+        try {
+            if ($SkipIfDestExists -and (Test-Path $destFile)) {
+                Write-OK "$label already exists at destination - skipping."
+                return $true
+            }
+            Copy-Item -Path $srcFile -Destination $destFile -Force
+            Write-OK "Copied $label -> $destFile"
+            return $true
+        }
+        catch {
+            Write-Fail "Failed to copy $label : $($_.Exception.Message)"
+            return $false
+        }
+    }
+    else {
+        Write-Warn "$label not found at: $srcFile (skipping)"
+        return $true   # non-fatal
+    }
+}
+
+# ---- BMAD Integration: Copy project folders to workspace ----
 function Install-BMADIntegration {
     param([string]$workspacePath)
 
-    Write-Section "BMAD Integration - Copying Roo Config Files"
+    Write-Section "BMAD Integration - BMADMonorepoEFInternalTools"
 
     if (-not $workspacePath -or -not (Test-Path $workspacePath)) {
         Write-Warn "Workspace path not found: '$workspacePath'"
@@ -486,159 +542,49 @@ function Install-BMADIntegration {
 
     $bmadOk = $true
 
-    # ---- Copy .roo/ folder (mcp.json, bootstrap-mcp.ps1) ----
+    # ---- Copy .roo/ folder (MCP config) ----------------------
     $srcRoo  = Join-Path $SCRIPT_DIR ".roo"
     $destRoo = Join-Path $workspacePath ".roo"
+    if (-not (Copy-FolderIfExists $srcRoo $destRoo ".roo/")) { $bmadOk = $false }
 
-    if (Test-Path $srcRoo) {
-        try {
-            if (-not (Test-Path $destRoo)) {
-                New-Item -ItemType Directory -Path $destRoo -Force | Out-Null
-            }
+    # ---- Copy _bmad/ folder (BMAD v6.2.0 framework) ----------
+    $srcBmad  = Join-Path $SCRIPT_DIR "_bmad"
+    $destBmad = Join-Path $workspacePath "_bmad"
+    if (-not (Copy-FolderIfExists $srcBmad $destBmad "_bmad/")) { $bmadOk = $false }
 
-            # Copy mcp.json
-            $srcMcp  = Join-Path $srcRoo "mcp.json"
-            $destMcp = Join-Path $destRoo "mcp.json"
-            if (Test-Path $srcMcp) {
-                Copy-Item -Path $srcMcp -Destination $destMcp -Force
-                Write-OK "Copied .roo/mcp.json -> $destMcp"
-            }
+    # ---- Copy _bmad-output/ folder (planning & impl artifacts)
+    $srcOutput  = Join-Path $SCRIPT_DIR "_bmad-output"
+    $destOutput = Join-Path $workspacePath "_bmad-output"
+    if (-not (Copy-FolderIfExists $srcOutput $destOutput "_bmad-output/")) { $bmadOk = $false }
 
-            # Copy bootstrap-mcp.ps1
-            $srcBoot  = Join-Path $srcRoo "bootstrap-mcp.ps1"
-            $destBoot = Join-Path $destRoo "bootstrap-mcp.ps1"
-            if (Test-Path $srcBoot) {
-                Copy-Item -Path $srcBoot -Destination $destBoot -Force
-                Write-OK "Copied .roo/bootstrap-mcp.ps1 -> $destBoot"
-            }
-        }
-        catch {
-            Write-Fail "Failed to copy .roo/ folder: $($_.Exception.Message)"
-            $bmadOk = $false
-        }
-    }
-    else {
-        Write-Warn ".roo/ folder not found at: $srcRoo"
-        Write-Warn "Skipping MCP config copy."
-        $bmadOk = $false
-    }
+    # ---- Copy docs/ folder (governance, legal-entity-insights)
+    $srcDocs  = Join-Path $SCRIPT_DIR "docs"
+    $destDocs = Join-Path $workspacePath "docs"
+    if (-not (Copy-FolderIfExists $srcDocs $destDocs "docs/")) { $bmadOk = $false }
 
-    # ---- Copy .clinerules ------------------------------------
-    $srcRules  = Join-Path $SCRIPT_DIR ".clinerules"
-    $destRules = Join-Path $workspacePath ".clinerules"
+    # ---- Copy projects/ folder (Directus, bank-import, etc.) -
+    $srcProjects  = Join-Path $SCRIPT_DIR "projects"
+    $destProjects = Join-Path $workspacePath "projects"
+    if (-not (Copy-FolderIfExists $srcProjects $destProjects "projects/")) { $bmadOk = $false }
 
-    if (Test-Path $srcRules) {
-        try {
-            Copy-Item -Path $srcRules -Destination $destRules -Force
-            Write-OK "Copied .clinerules -> $destRules"
-        }
-        catch {
-            Write-Fail "Failed to copy .clinerules: $($_.Exception.Message)"
-            $bmadOk = $false
-        }
-    }
-    else {
-        Write-Warn ".clinerules not found at: $srcRules"
-    }
+    # ---- Copy root config files ------------------------------
+    $bmadOk = (Copy-FileIfExists (Join-Path $SCRIPT_DIR ".clinerules")  (Join-Path $workspacePath ".clinerules")  ".clinerules")  -and $bmadOk
+    $bmadOk = (Copy-FileIfExists (Join-Path $SCRIPT_DIR ".gitignore")   (Join-Path $workspacePath ".gitignore")   ".gitignore" -SkipIfDestExists) -and $bmadOk
 
-    # ---- Copy .gitignore -------------------------------------
-    $srcGit  = Join-Path $SCRIPT_DIR ".gitignore"
-    $destGit = Join-Path $workspacePath ".gitignore"
-
-    if (Test-Path $srcGit) {
-        try {
-            if (-not (Test-Path $destGit)) {
-                Copy-Item -Path $srcGit -Destination $destGit -Force
-                Write-OK "Copied .gitignore -> $destGit"
-            }
-            else {
-                Write-OK ".gitignore already exists at destination - skipping."
-            }
-        }
-        catch {
-            Write-Warn "Could not copy .gitignore: $($_.Exception.Message)"
-        }
-    }
-
-    # ---- Create docs/bmad and docs/specs stubs ---------------
-    $docsPath  = Join-Path $workspacePath "docs"
-    $bmadPath  = Join-Path $docsPath "bmad"
-    $specsPath = Join-Path $docsPath "specs"
-
-    foreach ($dir in @($bmadPath, $specsPath)) {
-        if (-not (Test-Path $dir)) {
-            try {
-                New-Item -ItemType Directory -Path $dir -Force | Out-Null
-                Write-OK "Created directory: $dir"
-            }
-            catch {
-                Write-Warn "Could not create $dir : $($_.Exception.Message)"
-            }
-        }
-        else {
-            Write-OK "Directory already exists: $dir"
-        }
-    }
-
-    # ---- Create README stub in docs/bmad ---------------------
-    $bmadReadme = Join-Path $bmadPath "README.md"
-    if (-not (Test-Path $bmadReadme)) {
-        $bmadContent = @"
-# BMAD Method - Business Model Architecture Design
-
-This folder contains BMAD documentation for the ExpertFlow ERP project.
-
-## Structure
-- `architecture/` - System architecture decisions
-- `epics/`        - Feature epics and user stories
-- `personas/`     - User personas
-- `prd/`          - Product requirements documents
-
-## Usage
-Roo Code reads this folder via the BMAD MCP server.
-The `.clinerules` file instructs all AI modes to read docs/bmad before writing feature code.
-
-## Directus Collections
-The ERP database (bs4.expertflow.com) contains:
-Account, Accruals, Allocation, BankStatement, Contact, Currency,
-Employee, Invoice, Journal, Leaves, LegalEntity, Project, Task,
-TimeEntry, Transaction, tickets, and 60+ more collections.
-"@
-        try {
-            $bmadContent | Set-Content $bmadReadme -Encoding UTF8
-            Write-OK "Created docs/bmad/README.md"
-        }
-        catch {
-            Write-Warn "Could not create docs/bmad/README.md"
-        }
-    }
-
-    # ---- Create README stub in docs/specs --------------------
-    $specsReadme = Join-Path $specsPath "README.md"
-    if (-not (Test-Path $specsReadme)) {
-        $specsContent = @"
-# API Specifications
-
-This folder contains API contracts and implementation specs.
-
-## Usage
-Roo Code reads this folder via the SpecKit MCP server.
-Update specs here when changing API contracts or database schema.
-"@
-        try {
-            $specsContent | Set-Content $specsReadme -Encoding UTF8
-            Write-OK "Created docs/specs/README.md"
-        }
-        catch {
-            Write-Warn "Could not create docs/specs/README.md"
-        }
-    }
-
+    # ---- Summary ---------------------------------------------
     if ($bmadOk) {
         Write-OK "BMAD integration complete."
+        Write-Host ""
+        Write-Host "  Project folders copied:" -ForegroundColor Cyan
+        Write-Host "    _bmad/          - BMAD v6.2.0 framework (agents, workflows, config)" -ForegroundColor White
+        Write-Host "    _bmad-output/   - Planning & implementation artifacts" -ForegroundColor White
+        Write-Host "    docs/           - Governance & legal-entity insights" -ForegroundColor White
+        Write-Host "    projects/       - Directus, bank-import, finance-streamlit, expense-api" -ForegroundColor White
+        Write-Host "    .roo/           - MCP server config (mcp.json)" -ForegroundColor White
+        Write-Host "    .clinerules     - AI coding rules for all Roo Code modes" -ForegroundColor White
     }
     else {
-        Write-Warn "BMAD integration completed with warnings."
+        Write-Warn "BMAD integration completed with warnings - check output above."
     }
 
     return $bmadOk
@@ -651,8 +597,8 @@ function Get-WorkspacePath {
     Write-Host "   BMAD WORKSPACE SETUP" -ForegroundColor Cyan
     Write-Host "  =============================================" -ForegroundColor Cyan
     Write-Host ""
-    Write-Host "  BMAD integration copies .roo/mcp.json, .clinerules," -ForegroundColor White
-    Write-Host "  and creates docs/bmad and docs/specs folders." -ForegroundColor White
+    Write-Host "  BMAD integration copies: _bmad/, _bmad-output/, docs/," -ForegroundColor White
+    Write-Host "  projects/, .roo/mcp.json, .clinerules, .gitignore" -ForegroundColor White
     Write-Host ""
     Write-Host "  Where is your project workspace?" -ForegroundColor White
     Write-Host "  [1] Current directory ($SCRIPT_DIR)" -ForegroundColor White
