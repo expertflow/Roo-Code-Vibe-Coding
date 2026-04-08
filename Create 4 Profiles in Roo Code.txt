@@ -17,11 +17,11 @@ Model: gemini-2.5-flash
 3.
 Configuration Profile Name: Claude Sonnet
 API Provider: Anthropic
-Anthropic API Key: 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
+Anthropic API Key: 
 Model: claude-sonnet-4-6
 
 4.
 Configuration Profile Name: Claude Opus
 API Provider: Anthropic
-Anthropic API Key: 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
+Anthropic API Key:
 Model: claude-opus-4-6
