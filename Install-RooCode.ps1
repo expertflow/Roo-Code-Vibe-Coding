@@ -1,7 +1,7 @@
 # ============================================================
 #  Roo Code - Universal Extension Installer & Profile Setup
 #  Supports: VS Code, VS Code Insiders, Cursor, Windsurf, VSCodium
-#  Version : 1.0
+#  Version : 2.0  (HashiCorp Vault secrets integration)
 # ============================================================
 
 param(
@@ -10,22 +10,29 @@ param(
 
 $ErrorActionPreference = "Continue"
 
-# ---- Configuration -----------------------------------------
-# API key is Base64-encoded to avoid plain-text exposure in the script file.
-# It is decoded at runtime into memory only - never written as plain text to disk.
-$_b64 = "c2stYW50LWFwaTAzLW0xR19sSTVQSVQxbkQ4VFliSTlZR19fc0pXUXFxTF9Ic0w1aDhGWDExNDExU2tKOVRHNDNneEdhejZxX1M5MlM4dkkwVzl3VnNJendSZnZXZ2dFd3dRLWpHeUh2d0FB"
-$ANTHROPIC_API_KEY = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($_b64))
-$ROO_EXTENSION_ID  = "RooVeterinaryInc.roo-cline"
-$GCP_PROJECT_ID    = "expertflowerp"
-$GCP_REGION        = "us-central1"
+# ---- Vault Configuration -----------------------------------
+# Secrets are fetched live from HashiCorp Vault at runtime.
+# Nothing sensitive is stored in this script file.
+$VAULT_ADDR  = "https://45.88.223.83:31313"
+$VAULT_TOKEN = "hvs.CAESIC0nSYZlc92KbjE36r_Vncz-MznLpY0eMplhN_V6FrVaGh4KHGh2cy5jU3Q2djJMWjc2bWJPYkZhN3ZSN1JBcUc"
+
+# cubbyhole is a KV v1 backend - path has no /data/ prefix
+$VAULT_SECRET_PATH  = "cubbyhole/roocode"
+$VAULT_SECRET_FIELD = "anthropic_api_key"
+
+# ---- Static Configuration ----------------------------------
+$ROO_EXTENSION_ID = "RooVeterinaryInc.roo-cline"
+$GCP_PROJECT_ID   = "expertflowerp"
+$GCP_REGION       = "us-central1"
 
 # ---- Console helpers ----------------------------------------
 function Write-Header {
     Clear-Host
     Write-Host ""
     Write-Host "  =============================================" -ForegroundColor Cyan
-    Write-Host "   ROO CODE - Universal Installer  v1.0" -ForegroundColor Cyan
+    Write-Host "   ROO CODE - Universal Installer  v2.0" -ForegroundColor Cyan
     Write-Host "   VS Code | Cursor | Windsurf | VSCodium" -ForegroundColor Cyan
+    Write-Host "   Secrets via HashiCorp Vault" -ForegroundColor DarkCyan
     Write-Host "  =============================================" -ForegroundColor Cyan
     Write-Host ""
 }
@@ -55,6 +62,72 @@ function Write-Section {
     Write-Host ""
     Write-Host "  ---- $title ----" -ForegroundColor Cyan
     Write-Host ""
+}
+
+# ---- Fetch secret from HashiCorp Vault ----------------------
+function Get-VaultSecret {
+    param(
+        [string]$vaultAddr,
+        [string]$vaultToken,
+        [string]$secretPath,
+        [string]$fieldName
+    )
+
+    Write-Step "Connecting to HashiCorp Vault at $vaultAddr ..."
+
+    try {
+        # Disable SSL certificate validation for self-signed certs on private servers
+        if (-not ([System.Management.Automation.PSTypeName]'TrustAllCerts').Type) {
+            Add-Type @"
+using System.Net;
+using System.Security.Cryptography.X509Certificates;
+public class TrustAllCerts : ICertificatePolicy {
+    public bool CheckValidationResult(
+        ServicePoint srvPoint, X509Certificate certificate,
+        WebRequest request, int certificateProblem) { return true; }
+}
+"@
+        }
+        [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCerts
+        [System.Net.ServicePointManager]::SecurityProtocol  = [System.Net.SecurityProtocolType]::Tls12
+
+        $headers = @{
+            "X-Vault-Token" = $vaultToken
+        }
+
+        $uri      = "$vaultAddr/v1/$secretPath"
+        $response = Invoke-RestMethod -Uri $uri -Headers $headers -Method GET -ErrorAction Stop
+
+        # cubbyhole / KV v1: response is { "data": { "field": "value" } }
+        # KV v2:             response is { "data": { "data": { "field": "value" } } }
+        $secret = $null
+        if ($response.data -and $response.data.$fieldName) {
+            # KV v1 / cubbyhole
+            $secret = $response.data.$fieldName
+        }
+        elseif ($response.data.data -and $response.data.data.$fieldName) {
+            # KV v2
+            $secret = $response.data.data.$fieldName
+        }
+
+        if ($secret) {
+            Write-OK "Secret '$fieldName' retrieved from Vault successfully."
+            return $secret
+        }
+        else {
+            Write-Fail "Field '$fieldName' not found in Vault path '$secretPath'."
+            Write-Warn "Make sure you have stored the secret at: $vaultAddr/ui/vault/secrets"
+            Write-Warn "Expected path : $secretPath"
+            Write-Warn "Expected field: $fieldName"
+            return $null
+        }
+    }
+    catch {
+        Write-Fail "Failed to connect to Vault: $($_.Exception.Message)"
+        Write-Warn "Vault URL : $vaultAddr"
+        Write-Warn "Secret path: $secretPath"
+        return $null
+    }
 }
 
 # ---- Detect installed IDEs ----------------------------------
@@ -181,6 +254,8 @@ function Install-Extension {
 
 # ---- Build Roo Code profile objects -------------------------
 function New-RooProfiles {
+    param([string]$anthropicKey)
+
     $p1 = [ordered]@{
         id              = "11111111-1111-1111-1111-111111111001"
         name            = "Gemini-2.5-pro"
@@ -203,7 +278,7 @@ function New-RooProfiles {
         id          = "11111111-1111-1111-1111-111111111003"
         name        = "Claude Sonnet"
         apiProvider = "anthropic"
-        apiKey      = $ANTHROPIC_API_KEY
+        apiKey      = $anthropicKey
         apiModelId  = "claude-sonnet-4-6"
     }
 
@@ -211,7 +286,7 @@ function New-RooProfiles {
         id          = "11111111-1111-1111-1111-111111111004"
         name        = "Claude Opus"
         apiProvider = "anthropic"
-        apiKey      = $ANTHROPIC_API_KEY
+        apiKey      = $anthropicKey
         apiModelId  = "claude-opus-4-6"
     }
 
@@ -222,7 +297,8 @@ function New-RooProfiles {
 function Set-RooProfiles {
     param(
         [hashtable]$ide,
-        [array]$profiles
+        [array]$profiles,
+        [string]$anthropicKey
     )
 
     $settingsDir = $ide.SettingsBase
@@ -293,7 +369,7 @@ function Set-RooProfiles {
 
     # Set default provider so Roo Code works immediately on first open
     $userSettings["roo-cline.apiProvider"] = "anthropic"
-    $userSettings["roo-cline.apiKey"]      = $ANTHROPIC_API_KEY
+    $userSettings["roo-cline.apiKey"]      = $anthropicKey
     $userSettings["roo-cline.apiModelId"]  = "claude-sonnet-4-6"
 
     $userSettings | ConvertTo-Json -Depth 10 | Set-Content $userSettingsFile -Encoding UTF8
@@ -306,6 +382,34 @@ function Set-RooProfiles {
 #  MAIN EXECUTION
 # ============================================================
 Write-Header
+
+# Step 0: Fetch API key from Vault
+Write-Section "Step 0 of 4 - Fetching Secrets from HashiCorp Vault"
+
+$ANTHROPIC_API_KEY = Get-VaultSecret `
+    -vaultAddr   $VAULT_ADDR `
+    -vaultToken  $VAULT_TOKEN `
+    -secretPath  $VAULT_SECRET_PATH `
+    -fieldName   $VAULT_SECRET_FIELD
+
+if (-not $ANTHROPIC_API_KEY) {
+    Write-Host ""
+    Write-Fail "Could not retrieve the Anthropic API key from Vault."
+    Write-Host ""
+    Write-Host "  Please ensure:" -ForegroundColor DarkYellow
+    Write-Host "  1. Vault is reachable at: $VAULT_ADDR" -ForegroundColor DarkYellow
+    Write-Host "  2. The token is valid and has read access." -ForegroundColor DarkYellow
+    Write-Host "  3. A secret exists at path: $VAULT_SECRET_PATH" -ForegroundColor DarkYellow
+    Write-Host "  4. The secret has a field named: $VAULT_SECRET_FIELD" -ForegroundColor DarkYellow
+    Write-Host ""
+    Write-Host "  To create the secret, run in Vault CLI:" -ForegroundColor Gray
+    Write-Host "  vault kv put secret/roocode anthropic_api_key=sk-ant-api03-..." -ForegroundColor Gray
+    Write-Host ""
+    if (-not $Silent) {
+        Read-Host "  Press ENTER to exit"
+    }
+    exit 1
+}
 
 # Step 1: Detect IDEs
 Write-Section "Step 1 of 4 - Detecting Installed IDEs"
@@ -339,7 +443,7 @@ foreach ($ide in $ides) {
 
 # Step 3: Build profiles
 Write-Section "Step 3 of 4 - Building Configuration Profiles"
-$profiles = New-RooProfiles
+$profiles = New-RooProfiles -anthropicKey $ANTHROPIC_API_KEY
 
 Write-OK "Profile 1 -> Gemini-2.5-pro    (GCP Vertex AI | Project: $GCP_PROJECT_ID | Region: $GCP_REGION)"
 Write-OK "Profile 2 -> Gemini-2.5-flash  (GCP Vertex AI | Project: $GCP_PROJECT_ID | Region: $GCP_REGION)"
@@ -351,7 +455,7 @@ Write-Section "Step 4 of 4 - Writing Profiles to IDE Settings"
 
 $profileResults = @{}
 foreach ($ide in $ides) {
-    $ok = Set-RooProfiles -ide $ide -profiles $profiles
+    $ok = Set-RooProfiles -ide $ide -profiles $profiles -anthropicKey $ANTHROPIC_API_KEY
     $profileResults[$ide.Name] = $ok
 }
 
