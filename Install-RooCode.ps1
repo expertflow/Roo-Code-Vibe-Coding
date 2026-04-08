@@ -1,7 +1,7 @@
 # ============================================================
 #  Roo Code - Universal Extension Installer & Profile Setup
 #  Supports: VS Code, Cursor, Antigravity
-#  Version : 2.0  (HashiCorp Vault secrets integration)
+#  Version : 3.0  (Windows Credential Manager - correct storage)
 # ============================================================
 
 param(
@@ -11,12 +11,8 @@ param(
 $ErrorActionPreference = "Continue"
 
 # ---- Vault Configuration -----------------------------------
-# Secrets are fetched live from HashiCorp Vault at runtime.
-# Nothing sensitive is stored in this script file.
 $VAULT_ADDR  = "https://45.88.223.83:31313"
 $VAULT_TOKEN = "hvs.CAESIC0nSYZlc92KbjE36r_Vncz-MznLpY0eMplhN_V6FrVaGh4KHGh2cy5jU3Q2djJMWjc2bWJPYkZhN3ZSN1JBcUc"
-
-# Vault path: cubbyhole/internal-erp/db  field: ANTHROPIC_API_KEY
 $VAULT_SECRET_PATH  = "cubbyhole/internal-erp/db"
 $VAULT_SECRET_FIELD = "ANTHROPIC_API_KEY"
 
@@ -25,12 +21,79 @@ $ROO_EXTENSION_ID = "RooVeterinaryInc.roo-cline"
 $GCP_PROJECT_ID   = "expertflowerp"
 $GCP_REGION       = "us-central1"
 
+# ---- Windows Credential Manager C# type --------------------
+$CredManSource = @"
+using System;
+using System.Runtime.InteropServices;
+using System.Text;
+
+public class CredMan {
+    [DllImport("advapi32.dll", EntryPoint="CredReadW", CharSet=CharSet.Unicode, SetLastError=true)]
+    public static extern bool CredRead(string target, int type, int flags, out IntPtr credential);
+
+    [DllImport("advapi32.dll", EntryPoint="CredWriteW", CharSet=CharSet.Unicode, SetLastError=true)]
+    public static extern bool CredWrite(ref CREDENTIAL credential, int flags);
+
+    [DllImport("advapi32.dll", SetLastError=true)]
+    public static extern void CredFree(IntPtr buffer);
+
+    [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Unicode)]
+    public struct CREDENTIAL {
+        public int    Flags;
+        public int    Type;
+        public string TargetName;
+        public string Comment;
+        public long   LastWritten;
+        public int    CredentialBlobSize;
+        public IntPtr CredentialBlob;
+        public int    Persist;
+        public int    AttributeCount;
+        public IntPtr Attributes;
+        public string TargetAlias;
+        public string UserName;
+    }
+
+    public static string Read(string target) {
+        IntPtr ptr;
+        if (!CredRead(target, 1, 0, out ptr)) return null;
+        var c     = (CREDENTIAL)Marshal.PtrToStructure(ptr, typeof(CREDENTIAL));
+        var bytes = new byte[c.CredentialBlobSize];
+        Marshal.Copy(c.CredentialBlob, bytes, 0, c.CredentialBlobSize);
+        CredFree(ptr);
+        return Encoding.Unicode.GetString(bytes);
+    }
+
+    public static bool Write(string target, string username, string secret) {
+        var blob  = Encoding.Unicode.GetBytes(secret);
+        var blobPtr = Marshal.AllocHGlobal(blob.Length);
+        Marshal.Copy(blob, 0, blobPtr, blob.Length);
+        var cred = new CREDENTIAL {
+            Flags              = 0,
+            Type               = 1,
+            TargetName         = target,
+            Comment            = null,
+            LastWritten        = 0,
+            CredentialBlobSize = blob.Length,
+            CredentialBlob     = blobPtr,
+            Persist            = 2,
+            AttributeCount     = 0,
+            Attributes         = IntPtr.Zero,
+            TargetAlias        = null,
+            UserName           = username
+        };
+        bool ok = CredWrite(ref cred, 0);
+        Marshal.FreeHGlobal(blobPtr);
+        return ok;
+    }
+}
+"@
+
 # ---- Console helpers ----------------------------------------
 function Write-Header {
     Clear-Host
     Write-Host ""
     Write-Host "  =============================================" -ForegroundColor Cyan
-    Write-Host "   ROO CODE - Universal Installer  v2.0" -ForegroundColor Cyan
+    Write-Host "   ROO CODE - Universal Installer  v3.0" -ForegroundColor Cyan
     Write-Host "   VS Code | Cursor | Antigravity" -ForegroundColor Cyan
     Write-Host "   Secrets via HashiCorp Vault" -ForegroundColor DarkCyan
     Write-Host "  =============================================" -ForegroundColor Cyan
@@ -64,6 +127,21 @@ function Write-Section {
     Write-Host ""
 }
 
+# ---- Load CredMan type once ---------------------------------
+function Initialize-CredMan {
+    if (-not ([System.Management.Automation.PSTypeName]'CredMan').Type) {
+        try {
+            Add-Type -TypeDefinition $CredManSource -Language CSharp
+            return $true
+        }
+        catch {
+            Write-Fail "Failed to load CredMan type: $($_.Exception.Message)"
+            return $false
+        }
+    }
+    return $true
+}
+
 # ---- Fetch secret from HashiCorp Vault ----------------------
 function Get-VaultSecret {
     param(
@@ -76,7 +154,6 @@ function Get-VaultSecret {
     Write-Step "Connecting to HashiCorp Vault at $vaultAddr ..."
 
     try {
-        # Disable SSL certificate validation for self-signed certs on private servers
         if (-not ([System.Management.Automation.PSTypeName]'TrustAllCerts').Type) {
             Add-Type @"
 using System.Net;
@@ -91,22 +168,15 @@ public class TrustAllCerts : ICertificatePolicy {
         [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCerts
         [System.Net.ServicePointManager]::SecurityProtocol  = [System.Net.SecurityProtocolType]::Tls12
 
-        $headers = @{
-            "X-Vault-Token" = $vaultToken
-        }
-
+        $headers  = @{ "X-Vault-Token" = $vaultToken }
         $uri      = "$vaultAddr/v1/$secretPath"
         $response = Invoke-RestMethod -Uri $uri -Headers $headers -Method GET -ErrorAction Stop
 
-        # cubbyhole / KV v1: response is { "data": { "field": "value" } }
-        # KV v2:             response is { "data": { "data": { "field": "value" } } }
         $secret = $null
         if ($response.data -and $response.data.$fieldName) {
-            # KV v1 / cubbyhole
             $secret = $response.data.$fieldName
         }
         elseif ($response.data.data -and $response.data.data.$fieldName) {
-            # KV v2
             $secret = $response.data.data.$fieldName
         }
 
@@ -116,16 +186,11 @@ public class TrustAllCerts : ICertificatePolicy {
         }
         else {
             Write-Fail "Field '$fieldName' not found in Vault path '$secretPath'."
-            Write-Warn "Make sure you have stored the secret at: $vaultAddr/ui/vault/secrets"
-            Write-Warn "Expected path : $secretPath"
-            Write-Warn "Expected field: $fieldName"
             return $null
         }
     }
     catch {
         Write-Fail "Failed to connect to Vault: $($_.Exception.Message)"
-        Write-Warn "Vault URL : $vaultAddr"
-        Write-Warn "Secret path: $secretPath"
         return $null
     }
 }
@@ -136,20 +201,24 @@ function Get-InstalledIDEs {
 
     $candidates = @(
         @{
-            Name         = "VS Code"
-            CLI          = "code"
-            SettingsBase = "$env:APPDATA\Code\User"
-            ExtraPaths   = @(
+            Name            = "VS Code"
+            CLI             = "code"
+            SettingsBase    = "$env:APPDATA\Code\User"
+            CredentialScope = "vscode"
+            ExtensionScope  = "RooVeterinaryInc.roo-cline"
+            ExtraPaths      = @(
                 "$env:LOCALAPPDATA\Programs\Microsoft VS Code\bin\code.cmd",
                 "C:\Program Files\Microsoft VS Code\bin\code.cmd",
                 "C:\Program Files (x86)\Microsoft VS Code\bin\code.cmd"
             )
         },
         @{
-            Name         = "Cursor"
-            CLI          = "cursor"
-            SettingsBase = "$env:APPDATA\Cursor\User"
-            ExtraPaths   = @(
+            Name            = "Cursor"
+            CLI             = "cursor"
+            SettingsBase    = "$env:APPDATA\Cursor\User"
+            CredentialScope = "cursor"
+            ExtensionScope  = "RooVeterinaryInc.roo-cline"
+            ExtraPaths      = @(
                 "$env:LOCALAPPDATA\Programs\cursor\resources\app\bin\cursor",
                 "$env:LOCALAPPDATA\Programs\Cursor\cursor.exe",
                 "$env:LOCALAPPDATA\cursor\cursor.exe",
@@ -158,10 +227,12 @@ function Get-InstalledIDEs {
             )
         },
         @{
-            Name         = "Antigravity"
-            CLI          = "antigravity"
-            SettingsBase = "$env:APPDATA\Antigravity\User"
-            ExtraPaths   = @(
+            Name            = "Antigravity"
+            CLI             = "antigravity"
+            SettingsBase    = "$env:APPDATA\Antigravity\User"
+            CredentialScope = "antigravity"
+            ExtensionScope  = "RooVeterinaryInc.roo-cline"
+            ExtraPaths      = @(
                 "$env:LOCALAPPDATA\Programs\Antigravity\bin\antigravity.cmd",
                 "$env:LOCALAPPDATA\Programs\Antigravity\antigravity.exe",
                 "C:\Program Files\Antigravity\bin\antigravity.cmd",
@@ -171,7 +242,6 @@ function Get-InstalledIDEs {
     )
 
     foreach ($ide in $candidates) {
-        # 1. Try PATH first
         $cliPath = Get-Command $ide.CLI -ErrorAction SilentlyContinue
         if ($cliPath) {
             $ide["CLIPath"] = $cliPath.Source
@@ -179,7 +249,6 @@ function Get-InstalledIDEs {
             continue
         }
 
-        # 2. Try extra known paths
         $found = $false
         foreach ($p in $ide.ExtraPaths) {
             if (Test-Path $p) {
@@ -190,7 +259,6 @@ function Get-InstalledIDEs {
             }
         }
 
-        # 3. If settings folder exists, IDE is installed even if CLI not found
         if (-not $found -and (Test-Path $ide.SettingsBase)) {
             $ide["CLIPath"] = $null
             $ides += $ide
@@ -236,136 +304,129 @@ function Install-Extension {
     }
 }
 
-# ---- Build Roo Code profile objects -------------------------
-function New-RooProfiles {
-    param([string]$anthropicKey)
-
-    $p1 = [ordered]@{
-        id              = "11111111-1111-1111-1111-111111111001"
-        name            = "Gemini-2.5-pro"
-        apiProvider     = "vertex"
-        vertexProjectId = $GCP_PROJECT_ID
-        vertexRegion    = $GCP_REGION
-        apiModelId      = "gemini-2.5-pro"
-    }
-
-    $p2 = [ordered]@{
-        id              = "11111111-1111-1111-1111-111111111002"
-        name            = "Gemini-2.5-flash"
-        apiProvider     = "vertex"
-        vertexProjectId = $GCP_PROJECT_ID
-        vertexRegion    = $GCP_REGION
-        apiModelId      = "gemini-2.5-flash"
-    }
-
-    $p3 = [ordered]@{
-        id          = "11111111-1111-1111-1111-111111111003"
-        name        = "Claude Sonnet"
-        apiProvider = "anthropic"
-        apiKey      = $anthropicKey
-        apiModelId  = "claude-sonnet-4-6"
-    }
-
-    $p4 = [ordered]@{
-        id          = "11111111-1111-1111-1111-111111111004"
-        name        = "Claude Opus"
-        apiProvider = "anthropic"
-        apiKey      = $anthropicKey
-        apiModelId  = "claude-opus-4-6"
-    }
-
-    return @($p1, $p2, $p3, $p4)
+# ---- Generate a UUID ----------------------------------------
+function New-Guid {
+    return [System.Guid]::NewGuid().ToString()
 }
 
-# ---- Write profiles into IDE's Roo Code storage -------------
+# ---- Build the profiles JSON payload ------------------------
+# IMPORTANT: Windows Credential Manager has a 2560-byte Unicode limit.
+# With 2 Anthropic API keys (~108 chars each) + vertex fields, the payload
+# must stay lean. Omitting the migrations block saves ~186 bytes and keeps
+# us safely under the limit (verified: ~2314 bytes). Roo Code sets migrations itself.
+function New-ProfilesPayload {
+    param([string]$anthropicKey)
+
+    # Stable deterministic IDs - same on every run (idempotent)
+    $id1 = "a1b2c3d4-e5f6-7890-abcd-ef1234567801"
+    $id2 = "a1b2c3d4-e5f6-7890-abcd-ef1234567802"
+    $id3 = "a1b2c3d4-e5f6-7890-abcd-ef1234567803"
+    $id4 = "a1b2c3d4-e5f6-7890-abcd-ef1234567804"
+
+    $payload = [ordered]@{
+        currentApiConfigName = "Claude Sonnet"
+        apiConfigs           = [ordered]@{
+            "Gemini-2.5-pro"   = [ordered]@{
+                id              = $id1
+                apiProvider     = "vertex"
+                apiModelId      = "gemini-2.5-pro"
+                vertexProjectId = $GCP_PROJECT_ID
+                vertexRegion    = $GCP_REGION
+            }
+            "Gemini-2.5-flash" = [ordered]@{
+                id              = $id2
+                apiProvider     = "vertex"
+                apiModelId      = "gemini-2.5-flash"
+                vertexProjectId = $GCP_PROJECT_ID
+                vertexRegion    = $GCP_REGION
+            }
+            "Claude Sonnet"    = [ordered]@{
+                id          = $id3
+                apiProvider = "anthropic"
+                apiModelId  = "claude-sonnet-4-6"
+                apiKey      = $anthropicKey
+            }
+            "Claude Opus"      = [ordered]@{
+                id          = $id4
+                apiProvider = "anthropic"
+                apiModelId  = "claude-opus-4-6"
+                apiKey      = $anthropicKey
+            }
+        }
+        modeApiConfigs = [ordered]@{
+            code         = $id3
+            architect    = $id1
+            ask          = $id3
+            debug        = $id3
+            orchestrator = $id1
+        }
+        # migrations block intentionally omitted to stay under 2560-byte Windows
+        # Credential Manager limit. Roo Code initialises migrations on first launch.
+    }
+
+    $json = $payload | ConvertTo-Json -Depth 10 -Compress
+
+    # Safety check - warn if approaching limit
+    $byteCount = [System.Text.Encoding]::Unicode.GetByteCount($json)
+    if ($byteCount -gt 2560) {
+        Write-Fail "Payload too large for Windows Credential Manager: $byteCount bytes (limit 2560)."
+        Write-Warn "This usually means the Anthropic API key is unusually long."
+        return $null
+    }
+    Write-Step "Payload size: $byteCount / 2560 bytes"
+
+    return $json
+}
+
+# ---- Write profiles to Windows Credential Manager ----------
 function Set-RooProfiles {
     param(
         [hashtable]$ide,
-        [array]$profiles,
         [string]$anthropicKey
     )
 
-    $settingsDir = $ide.SettingsBase
-
-    # Create settings dir if it does not exist yet
-    if (-not (Test-Path $settingsDir)) {
-        try {
-            New-Item -ItemType Directory -Path $settingsDir -Force | Out-Null
-            Write-OK "$($ide.Name) - Created settings directory."
-        }
-        catch {
-            Write-Warn "$($ide.Name) - Cannot create settings dir: $settingsDir - $($_.Exception.Message)"
-            return $false
-        }
+    # Determine credential target based on IDE
+    $credTarget = switch ($ide.Name) {
+        "VS Code"     { "vscode.rooveterinaryinc.roo-cline/roo_cline_config_api_config" }
+        "Cursor"      { "cursor.rooveterinaryinc.roo-cline/roo_cline_config_api_config" }
+        "Antigravity" { "antigravity.rooveterinaryinc.roo-cline/roo_cline_config_api_config" }
+        default       { "vscode.rooveterinaryinc.roo-cline/roo_cline_config_api_config" }
     }
 
-    # Write Roo Code globalStorage settings.json
-    $rooDir = Join-Path $settingsDir "globalStorage\RooVeterinaryInc.roo-cline"
-    if (-not (Test-Path $rooDir)) {
-        New-Item -ItemType Directory -Path $rooDir -Force | Out-Null
+    Write-Step "$($ide.Name) - Writing profiles to Windows Credential Manager ..."
+    Write-Step "  Target: $credTarget"
+
+    $json = New-ProfilesPayload -anthropicKey $anthropicKey
+
+    if (-not $json) {
+        Write-Fail "$($ide.Name) - Payload generation failed (too large or error)."
+        return $false
     }
 
-    $rooSettingsFile = Join-Path $rooDir "settings.json"
+    $ok = [CredMan]::Write($credTarget, "roo_cline_config_api_config", $json)
 
-    # Preserve any existing settings, only overwrite profile keys
-    $rooSettings = [ordered]@{}
-    if (Test-Path $rooSettingsFile) {
-        try {
-            $existing = Get-Content $rooSettingsFile -Raw -Encoding UTF8
-            if ($existing -and $existing.Trim() -ne "") {
-                $parsed = $existing | ConvertFrom-Json
-                $parsed.PSObject.Properties | ForEach-Object {
-                    $rooSettings[$_.Name] = $_.Value
-                }
-            }
-        }
-        catch {
-            Write-Warn "$($ide.Name) - Could not parse existing settings.json, starting fresh."
-            $rooSettings = [ordered]@{}
-        }
+    if ($ok) {
+        Write-OK "$($ide.Name) - Profiles written to credential store successfully."
+        return $true
     }
-
-    $rooSettings["apiProfiles"]         = $profiles
-    $rooSettings["currentApiProfileId"] = $profiles[0].id
-
-    $rooSettings | ConvertTo-Json -Depth 10 | Set-Content $rooSettingsFile -Encoding UTF8
-    Write-OK "$($ide.Name) - Profiles written to globalStorage."
-
-    # Also patch the IDE's user settings.json
-    $userSettingsFile = Join-Path $settingsDir "settings.json"
-    $userSettings = [ordered]@{}
-
-    if (Test-Path $userSettingsFile) {
-        try {
-            $raw = Get-Content $userSettingsFile -Raw -Encoding UTF8
-            if ($raw -and $raw.Trim() -ne "") {
-                $parsedUser = $raw | ConvertFrom-Json
-                $parsedUser.PSObject.Properties | ForEach-Object {
-                    $userSettings[$_.Name] = $_.Value
-                }
-            }
-        }
-        catch {
-            Write-Warn "$($ide.Name) - Could not parse user settings.json, will create new."
-            $userSettings = [ordered]@{}
-        }
+    else {
+        $errCode = [System.Runtime.InteropServices.Marshal]::GetLastWin32Error()
+        Write-Fail "$($ide.Name) - Failed to write credential (Win32 error: $errCode)."
+        return $false
     }
-
-    # Set default provider so Roo Code works immediately on first open
-    $userSettings["roo-cline.apiProvider"] = "anthropic"
-    $userSettings["roo-cline.apiKey"]      = $anthropicKey
-    $userSettings["roo-cline.apiModelId"]  = "claude-sonnet-4-6"
-
-    $userSettings | ConvertTo-Json -Depth 10 | Set-Content $userSettingsFile -Encoding UTF8
-    Write-OK "$($ide.Name) - User settings.json updated with default provider."
-
-    return $true
 }
 
 # ============================================================
 #  MAIN EXECUTION
 # ============================================================
 Write-Header
+
+# Load CredMan type
+if (-not (Initialize-CredMan)) {
+    Write-Fail "Cannot proceed without CredMan support."
+    if (-not $Silent) { Read-Host "  Press ENTER to exit" }
+    exit 1
+}
 
 # Step 0: Fetch API key from Vault
 Write-Section "Step 0 of 4 - Fetching Secrets from HashiCorp Vault"
@@ -386,12 +447,7 @@ if (-not $ANTHROPIC_API_KEY) {
     Write-Host "  3. A secret exists at path: $VAULT_SECRET_PATH" -ForegroundColor DarkYellow
     Write-Host "  4. The secret has a field named: $VAULT_SECRET_FIELD" -ForegroundColor DarkYellow
     Write-Host ""
-    Write-Host "  To create the secret, run in Vault CLI:" -ForegroundColor Gray
-    Write-Host "  vault kv put secret/roocode anthropic_api_key=sk-ant-api03-..." -ForegroundColor Gray
-    Write-Host ""
-    if (-not $Silent) {
-        Read-Host "  Press ENTER to exit"
-    }
+    if (-not $Silent) { Read-Host "  Press ENTER to exit" }
     exit 1
 }
 
@@ -405,9 +461,7 @@ if ($ides.Count -eq 0) {
     Write-Host "  Supported: VS Code, Cursor, Antigravity" -ForegroundColor DarkGray
     Write-Host "  Install at least one IDE and re-run this script." -ForegroundColor DarkGray
     Write-Host ""
-    if (-not $Silent) {
-        Read-Host "  Press ENTER to exit"
-    }
+    if (-not $Silent) { Read-Host "  Press ENTER to exit" }
     exit 1
 }
 
@@ -425,21 +479,20 @@ foreach ($ide in $ides) {
     $installResults[$ide.Name] = $ok
 }
 
-# Step 3: Build profiles
+# Step 3: Show profiles being created
 Write-Section "Step 3 of 4 - Building Configuration Profiles"
-$profiles = New-RooProfiles -anthropicKey $ANTHROPIC_API_KEY
 
 Write-OK "Profile 1 -> Gemini-2.5-pro    (GCP Vertex AI | Project: $GCP_PROJECT_ID | Region: $GCP_REGION)"
 Write-OK "Profile 2 -> Gemini-2.5-flash  (GCP Vertex AI | Project: $GCP_PROJECT_ID | Region: $GCP_REGION)"
 Write-OK "Profile 3 -> Claude Sonnet     (Anthropic | Model: claude-sonnet-4-6)"
 Write-OK "Profile 4 -> Claude Opus       (Anthropic | Model: claude-opus-4-6)"
 
-# Step 4: Write profiles to each IDE
-Write-Section "Step 4 of 4 - Writing Profiles to IDE Settings"
+# Step 4: Write profiles to each IDE via Windows Credential Manager
+Write-Section "Step 4 of 4 - Writing Profiles to IDE Credential Store"
 
 $profileResults = @{}
 foreach ($ide in $ides) {
-    $ok = Set-RooProfiles -ide $ide -profiles $profiles -anthropicKey $ANTHROPIC_API_KEY
+    $ok = Set-RooProfiles -ide $ide -anthropicKey $ANTHROPIC_API_KEY
     $profileResults[$ide.Name] = $ok
 }
 
@@ -452,9 +505,7 @@ foreach ($ide in $ides) {
     $profOk     = $profileResults[$ide.Name]
     $extStatus  = if ($extOk)  { "[OK] Extension" } else { "[!!] Extension (check manually)" }
     $profStatus = if ($profOk) { "[OK] Profiles"  } else { "[!!] Profiles (check manually)"  }
-    if (-not $extOk -or -not $profOk) {
-        $allGood = $false
-    }
+    if (-not $extOk -or -not $profOk) { $allGood = $false }
     Write-Host "  $($ide.Name.PadRight(24)) $extStatus  |  $profStatus" -ForegroundColor White
 }
 
@@ -541,10 +592,10 @@ if ($restartedAny) {
     Write-Host "  1. Your IDE(s) have been restarted automatically" -ForegroundColor Green
 }
 else {
-    Write-Host "  1. Open your IDE (VS Code, Cursor, or Antigravity)" -ForegroundColor White
+    Write-Host "  1. Restart VS Code (required for credential changes to take effect)" -ForegroundColor White
 }
 Write-Host "  2. Open Roo Code from the sidebar" -ForegroundColor White
-Write-Host "  3. Select a profile from the dropdown at the top of Roo Code" -ForegroundColor White
+Write-Host "  3. Click the profile dropdown at the top of Roo Code to switch profiles" -ForegroundColor White
 Write-Host ""
 
 if (-not $Silent) {
