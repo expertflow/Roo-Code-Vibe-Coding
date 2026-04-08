@@ -1,0 +1,91 @@
+- generic [ref=e2]:
+  - banner:
+    - navigation [ref=e3]:
+      - generic [ref=e4]:
+        - img "Vault logo" [ref=e8]
+        - generic [ref=e11]:
+          - list [ref=e13]:
+            - listitem [ref=e14]:
+              - link "Secrets" [ref=e15] [cursor=pointer]:
+                - /url: /ui/vault/secrets
+            - listitem [ref=e16]:
+              - link "Access" [ref=e17] [cursor=pointer]:
+                - /url: /ui/vault/access/leases
+            - listitem [ref=e18]:
+              - link "Tools" [ref=e19] [cursor=pointer]:
+                - /url: /ui/vault/tools/wrap
+          - generic [ref=e20]:
+            - button "Status" [ref=e22] [cursor=pointer]:
+              - img [ref=e24]
+              - generic [ref=e26]: Status
+              - img [ref=e27]
+            - button [ref=e31] [cursor=pointer]:
+              - img [ref=e32]
+              - img [ref=e34]
+            - button [ref=e37] [cursor=pointer]:
+              - img [ref=e39]
+              - img [ref=e41]
+        - button
+    - generic [ref=e43]:
+      - paragraph [ref=e45]: The Vault Browser CLI provides an easy way to execute the most common CLI commands, such as write, read, delete, and list.
+      - generic [ref=e47]:
+        - img [ref=e48]
+        - textbox [ref=e50]
+        - button [ref=e51]:
+          - button [ref=e52] [cursor=pointer]:
+            - img [ref=e53]
+  - generic [ref=e140]:
+    - generic [ref=e141]:
+      - navigation "breadcrumbs" [ref=e142]:
+        - list [ref=e143]:
+          - listitem [ref=e144]:
+            - generic [ref=e145]: ❮ /
+            - link "secrets" [ref=e146] [cursor=pointer]:
+              - /url: /ui/vault/secrets
+          - listitem [ref=e147]:
+            - generic [ref=e148]: ❮/
+            - link "cubbyhole" [ref=e149] [cursor=pointer]:
+              - /url: /ui/vault/secrets/cubbyhole/list
+          - listitem [ref=e150]:
+            - generic [ref=e151]: ❮/
+            - link "internal-erp":
+              - /url: /ui/vault/secrets/cubbyhole/list/internal-erp/
+      - heading "cubbyhole" [level=1] [ref=e154]:
+        - img [ref=e156]
+        - text: cubbyhole
+    - navigation "tabs" [ref=e159]:
+      - list [ref=e160]:
+        - link "Secrets" [ref=e161] [cursor=pointer]:
+          - /url: /ui/vault/secrets/cubbyhole/list
+        - link "Configuration" [ref=e162] [cursor=pointer]:
+          - /url: /ui/vault/secrets/cubbyhole/configuration
+    - navigation [ref=e163]:
+      - generic [ref=e164]:
+        - navigation [ref=e165]:
+          - paragraph [ref=e168]:
+            - textbox "Filter secrets" [active] [ref=e169]: internal-erp/
+            - img [ref=e170]
+          - paragraph [ref=e172]: Tab to autocomplete
+        - navigation [ref=e173]:
+          - link "Create secret" [ref=e174] [cursor=pointer]:
+            - /url: /ui/vault/secrets/cubbyhole/create?initialKey=internal-erp%2F
+            - text: Create secret
+            - img [ref=e175]
+    - link "db" [ref=e177] [cursor=pointer]:
+      - generic [ref=e178]:
+        - link "db" [ref=e180]:
+          - /url: /ui/vault/secrets/cubbyhole/show/internal-erp/db
+          - img [ref=e181]
+          - text: db
+        - button [ref=e185]:
+          - img [ref=e186]
+  - contentinfo [ref=e84]:
+    - generic [ref=e85]:
+      - img [ref=e86]
+      - text: © 2026 HashiCorp
+    - link "Vault 1.13.3" [ref=e89] [cursor=pointer]:
+      - /url: https://www.github.com/hashicorp/vault/blob/main/CHANGELOG.md#
+    - link "Upgrade to Vault Enterprise" [ref=e91] [cursor=pointer]:
+      - /url: https://hashicorp.com/products/vault/trial?source=vaultui
+    - link "Documentation" [ref=e93] [cursor=pointer]:
+      - /url: https://developer.hashicorp.com/vault

@@ -1,0 +1,151 @@
+- generic [ref=e2]:
+  - banner:
+    - navigation [ref=e3]:
+      - generic [ref=e4]:
+        - img "Vault logo" [ref=e8]
+        - generic [ref=e11]:
+          - list [ref=e13]:
+            - listitem [ref=e14]:
+              - link "Secrets" [ref=e15] [cursor=pointer]:
+                - /url: /ui/vault/secrets
+            - listitem [ref=e16]:
+              - link "Access" [ref=e17] [cursor=pointer]:
+                - /url: /ui/vault/access/leases
+            - listitem [ref=e18]:
+              - link "Tools" [ref=e19] [cursor=pointer]:
+                - /url: /ui/vault/tools/wrap
+          - generic [ref=e20]:
+            - button "Status" [ref=e22] [cursor=pointer]:
+              - img [ref=e24]
+              - generic [ref=e26]: Status
+              - img [ref=e27]
+            - button [ref=e31] [cursor=pointer]:
+              - img [ref=e32]
+              - img [ref=e34]
+            - button [ref=e37] [cursor=pointer]:
+              - img [ref=e39]
+              - img [ref=e41]
+        - button
+    - generic [ref=e43]:
+      - paragraph [ref=e45]: The Vault Browser CLI provides an easy way to execute the most common CLI commands, such as write, read, delete, and list.
+      - generic [ref=e47]:
+        - img [ref=e48]
+        - textbox [ref=e50]
+        - button [ref=e51]:
+          - button [ref=e52] [cursor=pointer]:
+            - img [ref=e53]
+  - generic [ref=e190]:
+    - generic [ref=e191]:
+      - navigation "breadcrumbs" [ref=e192]:
+        - list [ref=e193]:
+          - listitem [ref=e194]:
+            - generic [ref=e195]: ❮/
+            - link "cubbyhole" [ref=e196] [cursor=pointer]:
+              - /url: /ui/vault/secrets/cubbyhole/list
+          - listitem [ref=e197]:
+            - generic [ref=e198]: ❮/
+            - link "internal-erp" [ref=e199] [cursor=pointer]:
+              - /url: /ui/vault/secrets/cubbyhole/list/internal-erp/
+          - listitem [ref=e200]:
+            - generic [ref=e201]: ❮/
+            - link "db":
+              - /url: /ui/vault/secrets/cubbyhole/show/internal-erp/db
+      - heading "internal-erp/db" [level=1] [ref=e204]
+    - navigation [ref=e206]:
+      - list [ref=e207]:
+        - link "Secret" [ref=e208] [cursor=pointer]:
+          - /url: /ui/vault/secrets/cubbyhole/show/internal-erp/db
+    - navigation [ref=e209]:
+      - generic [ref=e210]:
+        - navigation [ref=e211]:
+          - checkbox "JSON" [ref=e212]
+          - generic [ref=e213] [cursor=pointer]: JSON
+        - navigation [ref=e214]:
+          - button "Delete" [ref=e216] [cursor=pointer]:
+            - text: Delete
+            - img [ref=e217]
+          - button "Copy" [ref=e220] [cursor=pointer]:
+            - text: Copy
+            - img [ref=e221]
+          - link "Edit secret" [ref=e223] [cursor=pointer]:
+            - /url: /ui/vault/secrets/cubbyhole/edit/internal-erp/db
+            - text: Edit secret
+            - img [ref=e224]
+    - generic [ref=e227]:
+      - generic [ref=e228]: Key
+      - generic [ref=e229]: Value
+      - button "Version created" [ref=e231]
+    - generic [ref=e232]:
+      - generic [ref=e234]: ADMIN_EMAIL
+      - generic [ref=e237]:
+        - generic [ref=e238]: "***********"
+        - button [ref=e239] [cursor=pointer]:
+          - img [ref=e240]
+        - button [ref=e242] [cursor=pointer]:
+          - img [ref=e243]
+    - generic [ref=e245]:
+      - generic [ref=e247]: ADMIN_PASSWORD
+      - generic [ref=e250]:
+        - generic [ref=e251]: "***********"
+        - button [ref=e252] [cursor=pointer]:
+          - img [ref=e253]
+        - button [ref=e255] [cursor=pointer]:
+          - img [ref=e256]
+    - generic [ref=e258]:
+      - generic [ref=e260]: ANTHROPIC_API_KEY
+      - generic [ref=e263]:
+        - generic [ref=e264]: "***********"
+        - button [ref=e265] [cursor=pointer]:
+          - img [ref=e266]
+        - button [ref=e268] [cursor=pointer]:
+          - img [ref=e269]
+    - generic [ref=e271]:
+      - generic [ref=e273]: BS4_DEV_PASSWORD
+      - generic [ref=e276]:
+        - generic [ref=e277]: "***********"
+        - button [ref=e278] [cursor=pointer]:
+          - img [ref=e279]
+        - button [ref=e281] [cursor=pointer]:
+          - img [ref=e282]
+    - generic [ref=e284]:
+      - generic [ref=e286]: DB_PASSWORD
+      - generic [ref=e289]:
+        - generic [ref=e290]: "***********"
+        - button [ref=e291] [cursor=pointer]:
+          - img [ref=e292]
+        - button [ref=e294] [cursor=pointer]:
+          - img [ref=e295]
+    - generic [ref=e297]:
+      - generic [ref=e299]: DIRECTUS_KEY
+      - generic [ref=e302]:
+        - generic [ref=e303]: "***********"
+        - button [ref=e304] [cursor=pointer]:
+          - img [ref=e305]
+        - button [ref=e307] [cursor=pointer]:
+          - img [ref=e308]
+    - generic [ref=e310]:
+      - generic [ref=e312]: DIRECTUS_SECRET
+      - generic [ref=e315]:
+        - generic [ref=e316]: "***********"
+        - button [ref=e317] [cursor=pointer]:
+          - img [ref=e318]
+        - button [ref=e320] [cursor=pointer]:
+          - img [ref=e321]
+    - generic [ref=e323]:
+      - generic [ref=e325]: DIRECTUS_TOKEN
+      - generic [ref=e328]:
+        - generic [ref=e329]: "***********"
+        - button [ref=e330] [cursor=pointer]:
+          - img [ref=e331]
+        - button [ref=e333] [cursor=pointer]:
+          - img [ref=e334]
+  - contentinfo [ref=e84]:
+    - generic [ref=e85]:
+      - img [ref=e86]
+      - text: © 2026 HashiCorp
+    - link "Vault 1.13.3" [ref=e89] [cursor=pointer]:
+      - /url: https://www.github.com/hashicorp/vault/blob/main/CHANGELOG.md#
+    - link "Upgrade to Vault Enterprise" [ref=e91] [cursor=pointer]:
+      - /url: https://hashicorp.com/products/vault/trial?source=vaultui
+    - link "Documentation" [ref=e93] [cursor=pointer]:
+      - /url: https://developer.hashicorp.com/vault

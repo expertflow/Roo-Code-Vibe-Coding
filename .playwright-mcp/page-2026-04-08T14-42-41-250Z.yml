@@ -1,0 +1,29 @@
+- generic [ref=e5]:
+  - generic [ref=e6]:
+    - img "Directus" [ref=e8]
+    - generic [ref=e9]:
+      - heading "Directus" [level=1] [ref=e10]:
+        - generic [ref=e11]: Directus
+      - generic [ref=e12]: Application
+  - generic [ref=e13]:
+    - heading "Sign In" [level=1] [ref=e15]:
+      - generic [ref=e16]: Sign In
+    - generic [ref=e17]:
+      - textbox "Email" [active] [ref=e20]
+      - generic [ref=e22]:
+        - textbox "Password" [ref=e23]
+        - button "visibility" [ref=e25] [cursor=pointer]:
+          - generic [ref=e26]: visibility
+      - generic [ref=e27]:
+        - button "Sign In" [ref=e29] [cursor=pointer]:
+          - generic [ref=e31]: Sign In
+        - link "Forgot Password" [ref=e32] [cursor=pointer]:
+          - /url: /admin/reset-password
+    - generic [ref=e33]:
+      - separator [ref=e35]
+      - generic [ref=e36] [cursor=pointer]:
+        - generic [ref=e39]: account_circle
+        - generic [ref=e41]: Log In with Google
+  - generic [ref=e42]:
+    - generic [ref=e44]: lock
+    - text: Not Authenticated

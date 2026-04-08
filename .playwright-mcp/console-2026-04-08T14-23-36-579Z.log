@@ -1,0 +1,2 @@
+[    1581ms] [ERROR] An SSL certificate error occurred when fetching the script. @ :0
+[    1595ms] [LOG] Service Worker registration failed with SecurityError: Failed to register a ServiceWorker for scope ('https://45.88.223.83:31313/v1/sys/storage/raft/snapshot') with script ('https://45.88.223.83:31313/ui/sw.js'): An SSL certificate error occurred when fetching the script. @ https://45.88.223.83:31313/ui/sw-registration-47c4d330be431fc548bb317e771c606d.js:7

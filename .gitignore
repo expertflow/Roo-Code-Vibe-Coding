@@ -1,6 +1,9 @@
 # ---- Resolved MCP config (contains live secrets from Vault) ----
 .roo/mcp.resolved.json
 
+# ---- DB / credential test scripts (may contain plain-text secrets) ----
+test-db-connection.js
+
 # ---- Node / npm ----
 node_modules/
 .npm/

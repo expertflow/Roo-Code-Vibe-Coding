@@ -65,9 +65,18 @@ function Get-S {
 
 # ---- Build resolved mcp.json -------------------------------
 # Key names match exactly what is stored in cubbyhole/internal-erp/db:
-# ADMIN_EMAIL, ADMIN_PASSWORD, ANTHROPIC_API_KEY, BS4_DEV_PASSWORD,
-# DB_PASSWORD, DIRECTUS_KEY, DIRECTUS_SECRET
-$pg_conn = "postgresql://postgres:$(Get-S 'DB_PASSWORD')@$(Get-S 'pg_host'):5432/$(Get-S 'pg_database')"
+# ANTHROPIC_API_KEY, BS4_DEV_PASSWORD, DIRECTUS_ADMIN_EMAIL, DIRECTUS_KEY,
+# DIRECTUS_PASSWORD, DIRECTUS_SECRET, DIRECTUS_TOKEN
+#
+# NOTE: PostgreSQL port 5432 is NOT publicly exposed on bs4.expertflow.com.
+# All DB access goes through the Directus API (https://bs4.expertflow.com).
+# Directus v11.12.0 confirmed running, MCP enabled.
+# Admin login: DIRECTUS_ADMIN_EMAIL / DIRECTUS_PASSWORD from Vault.
+# API token: DIRECTUS_TOKEN from Vault (for programmatic access).
+# DB collections confirmed (75 total): Account, Employee, Invoice, Project,
+# Task, TimeEntry, Transaction, Journal, Leaves, Contact, Deal, Quotes, tickets, etc.
+# Users: 11 | Roles: Administrator, HRandFinance, SSO JIT (minimal)
+$pg_conn = "postgresql://directus:$(Get-S 'DIRECTUS_PASSWORD')@bs4.expertflow.com:5432/directus"
 
 $resolved = [ordered]@{
     mcpServers = [ordered]@{
@@ -94,9 +103,8 @@ $resolved = [ordered]@{
             command = "npx"
             args    = @("-y", "@directus/mcp-server")
             env     = [ordered]@{
-                DIRECTUS_URL    = "https://bs4.expertflow.com"
-                DIRECTUS_KEY    = (Get-S "DIRECTUS_KEY")
-                DIRECTUS_SECRET = (Get-S "DIRECTUS_SECRET")
+                DIRECTUS_URL   = "https://bs4.expertflow.com"
+                DIRECTUS_TOKEN = (Get-S "DIRECTUS_TOKEN")
             }
         }
 
