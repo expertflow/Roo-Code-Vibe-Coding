@@ -1,7 +1,7 @@
 # ============================================================
 #  Roo Code - Universal Extension Installer & Profile Setup
 #  Supports: VS Code, Cursor, Antigravity
-#  Version : 3.0  (Windows Credential Manager - correct storage)
+#  Version : 4.0  (IDE Selection Menu + BMAD Integration)
 # ============================================================
 
 param(
@@ -11,8 +11,8 @@ param(
 $ErrorActionPreference = "Continue"
 
 # ---- Vault Configuration -----------------------------------
-$VAULT_ADDR  = "https://45.88.223.83:31313"
-$VAULT_TOKEN = "hvs.CAESIC0nSYZlc92KbjE36r_Vncz-MznLpY0eMplhN_V6FrVaGh4KHGh2cy5jU3Q2djJMWjc2bWJPYkZhN3ZSN1JBcUc"
+$VAULT_ADDR         = "https://45.88.223.83:31313"
+$VAULT_TOKEN        = "hvs.CAESIC0nSYZlc92KbjE36r_Vncz-MznLpY0eMplhN_V6FrVaGh4KHGh2cy5jU3Q2djJMWjc2bWJPYkZhN3ZSN1JBcUc"
 $VAULT_SECRET_PATH  = "cubbyhole/internal-erp/db"
 $VAULT_SECRET_FIELD = "ANTHROPIC_API_KEY"
 
@@ -20,6 +20,9 @@ $VAULT_SECRET_FIELD = "ANTHROPIC_API_KEY"
 $ROO_EXTENSION_ID = "RooVeterinaryInc.roo-cline"
 $GCP_PROJECT_ID   = "expertflowerp"
 $GCP_REGION       = "us-central1"
+
+# ---- Script directory (where .roo/ and .clinerules live) ---
+$SCRIPT_DIR = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 # ---- Windows Credential Manager C# type --------------------
 $CredManSource = @"
@@ -64,7 +67,7 @@ public class CredMan {
     }
 
     public static bool Write(string target, string username, string secret) {
-        var blob  = Encoding.Unicode.GetBytes(secret);
+        var blob    = Encoding.Unicode.GetBytes(secret);
         var blobPtr = Marshal.AllocHGlobal(blob.Length);
         Marshal.Copy(blob, 0, blobPtr, blob.Length);
         var cred = new CREDENTIAL {
@@ -93,9 +96,9 @@ function Write-Header {
     Clear-Host
     Write-Host ""
     Write-Host "  =============================================" -ForegroundColor Cyan
-    Write-Host "   ROO CODE - Universal Installer  v3.0" -ForegroundColor Cyan
+    Write-Host "   ROO CODE - Universal Installer  v4.0" -ForegroundColor Cyan
     Write-Host "   VS Code | Cursor | Antigravity" -ForegroundColor Cyan
-    Write-Host "   Secrets via HashiCorp Vault" -ForegroundColor DarkCyan
+    Write-Host "   Secrets via HashiCorp Vault + BMAD" -ForegroundColor DarkCyan
     Write-Host "  =============================================" -ForegroundColor Cyan
     Write-Host ""
 }
@@ -193,6 +196,74 @@ public class TrustAllCerts : ICertificatePolicy {
         Write-Fail "Failed to connect to Vault: $($_.Exception.Message)"
         return $null
     }
+}
+
+# ---- IDE Selection Menu ------------------------------------
+function Show-IDESelectionMenu {
+    param([array]$detectedIDEs)
+
+    Write-Host ""
+    Write-Host "  =============================================" -ForegroundColor Cyan
+    Write-Host "   SELECT WHICH IDEs TO INSTALL ROO CODE INTO" -ForegroundColor Cyan
+    Write-Host "  =============================================" -ForegroundColor Cyan
+    Write-Host ""
+
+    if ($detectedIDEs.Count -eq 0) {
+        Write-Fail "No supported IDEs detected on this machine."
+        Write-Host "  Supported: VS Code, Cursor, Antigravity" -ForegroundColor DarkGray
+        return @()
+    }
+
+    # Build menu options
+    $menuOptions = @()
+    $i = 1
+    foreach ($ide in $detectedIDEs) {
+        $status = if ($ide.CLIPath) { "detected" } else { "settings only" }
+        Write-Host "  [$i] $($ide.Name.PadRight(16)) ($status)" -ForegroundColor White
+        $menuOptions += $ide
+        $i++
+    }
+
+    if ($detectedIDEs.Count -gt 1) {
+        Write-Host "  [A] All IDEs listed above" -ForegroundColor Green
+    }
+    Write-Host "  [Q] Quit / Cancel" -ForegroundColor DarkGray
+    Write-Host ""
+
+    $selected = @()
+
+    while ($true) {
+        $choice = Read-Host "  Enter your choice (number, A for all, or Q to quit)"
+        $choice = $choice.Trim().ToUpper()
+
+        if ($choice -eq "Q") {
+            Write-Host ""
+            Write-Host "  Installation cancelled." -ForegroundColor DarkYellow
+            return $null
+        }
+
+        if ($choice -eq "A") {
+            $selected = $detectedIDEs
+            Write-Host ""
+            Write-OK "Selected: All IDEs"
+            break
+        }
+
+        # Try numeric
+        $num = 0
+        if ([int]::TryParse($choice, [ref]$num)) {
+            if ($num -ge 1 -and $num -le $menuOptions.Count) {
+                $selected = @($menuOptions[$num - 1])
+                Write-Host ""
+                Write-OK "Selected: $($selected[0].Name)"
+                break
+            }
+        }
+
+        Write-Warn "Invalid choice '$choice'. Please enter a number (1-$($menuOptions.Count)), A, or Q."
+    }
+
+    return $selected
 }
 
 # ---- Detect installed IDEs ----------------------------------
@@ -304,20 +375,10 @@ function Install-Extension {
     }
 }
 
-# ---- Generate a UUID ----------------------------------------
-function New-Guid {
-    return [System.Guid]::NewGuid().ToString()
-}
-
 # ---- Build the profiles JSON payload ------------------------
-# IMPORTANT: Windows Credential Manager has a 2560-byte Unicode limit.
-# With 2 Anthropic API keys (~108 chars each) + vertex fields, the payload
-# must stay lean. Omitting the migrations block saves ~186 bytes and keeps
-# us safely under the limit (verified: ~2314 bytes). Roo Code sets migrations itself.
 function New-ProfilesPayload {
     param([string]$anthropicKey)
 
-    # Stable deterministic IDs - same on every run (idempotent)
     $id1 = "a1b2c3d4-e5f6-7890-abcd-ef1234567801"
     $id2 = "a1b2c3d4-e5f6-7890-abcd-ef1234567802"
     $id3 = "a1b2c3d4-e5f6-7890-abcd-ef1234567803"
@@ -360,17 +421,13 @@ function New-ProfilesPayload {
             debug        = $id3
             orchestrator = $id1
         }
-        # migrations block intentionally omitted to stay under 2560-byte Windows
-        # Credential Manager limit. Roo Code initialises migrations on first launch.
     }
 
     $json = $payload | ConvertTo-Json -Depth 10 -Compress
 
-    # Safety check - warn if approaching limit
     $byteCount = [System.Text.Encoding]::Unicode.GetByteCount($json)
     if ($byteCount -gt 2560) {
         Write-Fail "Payload too large for Windows Credential Manager: $byteCount bytes (limit 2560)."
-        Write-Warn "This usually means the Anthropic API key is unusually long."
         return $null
     }
     Write-Step "Payload size: $byteCount / 2560 bytes"
@@ -385,7 +442,6 @@ function Set-RooProfiles {
         [string]$anthropicKey
     )
 
-    # Determine credential target based on IDE
     $credTarget = switch ($ide.Name) {
         "VS Code"     { "vscode.rooveterinaryinc.roo-cline/roo_cline_config_api_config" }
         "Cursor"      { "cursor.rooveterinaryinc.roo-cline/roo_cline_config_api_config" }
@@ -399,7 +455,7 @@ function Set-RooProfiles {
     $json = New-ProfilesPayload -anthropicKey $anthropicKey
 
     if (-not $json) {
-        Write-Fail "$($ide.Name) - Payload generation failed (too large or error)."
+        Write-Fail "$($ide.Name) - Payload generation failed."
         return $false
     }
 
@@ -416,6 +472,216 @@ function Set-RooProfiles {
     }
 }
 
+# ---- BMAD Integration: Copy .roo/ and .clinerules ----------
+function Install-BMADIntegration {
+    param([string]$workspacePath)
+
+    Write-Section "BMAD Integration - Copying Roo Config Files"
+
+    if (-not $workspacePath -or -not (Test-Path $workspacePath)) {
+        Write-Warn "Workspace path not found: '$workspacePath'"
+        Write-Warn "BMAD files will be installed to the current directory instead."
+        $workspacePath = $SCRIPT_DIR
+    }
+
+    $bmadOk = $true
+
+    # ---- Copy .roo/ folder (mcp.json, bootstrap-mcp.ps1) ----
+    $srcRoo  = Join-Path $SCRIPT_DIR ".roo"
+    $destRoo = Join-Path $workspacePath ".roo"
+
+    if (Test-Path $srcRoo) {
+        try {
+            if (-not (Test-Path $destRoo)) {
+                New-Item -ItemType Directory -Path $destRoo -Force | Out-Null
+            }
+
+            # Copy mcp.json
+            $srcMcp  = Join-Path $srcRoo "mcp.json"
+            $destMcp = Join-Path $destRoo "mcp.json"
+            if (Test-Path $srcMcp) {
+                Copy-Item -Path $srcMcp -Destination $destMcp -Force
+                Write-OK "Copied .roo/mcp.json -> $destMcp"
+            }
+
+            # Copy bootstrap-mcp.ps1
+            $srcBoot  = Join-Path $srcRoo "bootstrap-mcp.ps1"
+            $destBoot = Join-Path $destRoo "bootstrap-mcp.ps1"
+            if (Test-Path $srcBoot) {
+                Copy-Item -Path $srcBoot -Destination $destBoot -Force
+                Write-OK "Copied .roo/bootstrap-mcp.ps1 -> $destBoot"
+            }
+        }
+        catch {
+            Write-Fail "Failed to copy .roo/ folder: $($_.Exception.Message)"
+            $bmadOk = $false
+        }
+    }
+    else {
+        Write-Warn ".roo/ folder not found at: $srcRoo"
+        Write-Warn "Skipping MCP config copy."
+        $bmadOk = $false
+    }
+
+    # ---- Copy .clinerules ------------------------------------
+    $srcRules  = Join-Path $SCRIPT_DIR ".clinerules"
+    $destRules = Join-Path $workspacePath ".clinerules"
+
+    if (Test-Path $srcRules) {
+        try {
+            Copy-Item -Path $srcRules -Destination $destRules -Force
+            Write-OK "Copied .clinerules -> $destRules"
+        }
+        catch {
+            Write-Fail "Failed to copy .clinerules: $($_.Exception.Message)"
+            $bmadOk = $false
+        }
+    }
+    else {
+        Write-Warn ".clinerules not found at: $srcRules"
+    }
+
+    # ---- Copy .gitignore -------------------------------------
+    $srcGit  = Join-Path $SCRIPT_DIR ".gitignore"
+    $destGit = Join-Path $workspacePath ".gitignore"
+
+    if (Test-Path $srcGit) {
+        try {
+            if (-not (Test-Path $destGit)) {
+                Copy-Item -Path $srcGit -Destination $destGit -Force
+                Write-OK "Copied .gitignore -> $destGit"
+            }
+            else {
+                Write-OK ".gitignore already exists at destination - skipping."
+            }
+        }
+        catch {
+            Write-Warn "Could not copy .gitignore: $($_.Exception.Message)"
+        }
+    }
+
+    # ---- Create docs/bmad and docs/specs stubs ---------------
+    $docsPath  = Join-Path $workspacePath "docs"
+    $bmadPath  = Join-Path $docsPath "bmad"
+    $specsPath = Join-Path $docsPath "specs"
+
+    foreach ($dir in @($bmadPath, $specsPath)) {
+        if (-not (Test-Path $dir)) {
+            try {
+                New-Item -ItemType Directory -Path $dir -Force | Out-Null
+                Write-OK "Created directory: $dir"
+            }
+            catch {
+                Write-Warn "Could not create $dir : $($_.Exception.Message)"
+            }
+        }
+        else {
+            Write-OK "Directory already exists: $dir"
+        }
+    }
+
+    # ---- Create README stub in docs/bmad ---------------------
+    $bmadReadme = Join-Path $bmadPath "README.md"
+    if (-not (Test-Path $bmadReadme)) {
+        $bmadContent = @"
+# BMAD Method - Business Model Architecture Design
+
+This folder contains BMAD documentation for the ExpertFlow ERP project.
+
+## Structure
+- `architecture/` - System architecture decisions
+- `epics/`        - Feature epics and user stories
+- `personas/`     - User personas
+- `prd/`          - Product requirements documents
+
+## Usage
+Roo Code reads this folder via the BMAD MCP server.
+The `.clinerules` file instructs all AI modes to read docs/bmad before writing feature code.
+
+## Directus Collections
+The ERP database (bs4.expertflow.com) contains:
+Account, Accruals, Allocation, BankStatement, Contact, Currency,
+Employee, Invoice, Journal, Leaves, LegalEntity, Project, Task,
+TimeEntry, Transaction, tickets, and 60+ more collections.
+"@
+        try {
+            $bmadContent | Set-Content $bmadReadme -Encoding UTF8
+            Write-OK "Created docs/bmad/README.md"
+        }
+        catch {
+            Write-Warn "Could not create docs/bmad/README.md"
+        }
+    }
+
+    # ---- Create README stub in docs/specs --------------------
+    $specsReadme = Join-Path $specsPath "README.md"
+    if (-not (Test-Path $specsReadme)) {
+        $specsContent = @"
+# API Specifications
+
+This folder contains API contracts and implementation specs.
+
+## Usage
+Roo Code reads this folder via the SpecKit MCP server.
+Update specs here when changing API contracts or database schema.
+"@
+        try {
+            $specsContent | Set-Content $specsReadme -Encoding UTF8
+            Write-OK "Created docs/specs/README.md"
+        }
+        catch {
+            Write-Warn "Could not create docs/specs/README.md"
+        }
+    }
+
+    if ($bmadOk) {
+        Write-OK "BMAD integration complete."
+    }
+    else {
+        Write-Warn "BMAD integration completed with warnings."
+    }
+
+    return $bmadOk
+}
+
+# ---- Ask for workspace path ---------------------------------
+function Get-WorkspacePath {
+    Write-Host ""
+    Write-Host "  =============================================" -ForegroundColor Cyan
+    Write-Host "   BMAD WORKSPACE SETUP" -ForegroundColor Cyan
+    Write-Host "  =============================================" -ForegroundColor Cyan
+    Write-Host ""
+    Write-Host "  BMAD integration copies .roo/mcp.json, .clinerules," -ForegroundColor White
+    Write-Host "  and creates docs/bmad and docs/specs folders." -ForegroundColor White
+    Write-Host ""
+    Write-Host "  Where is your project workspace?" -ForegroundColor White
+    Write-Host "  [1] Current directory ($SCRIPT_DIR)" -ForegroundColor White
+    Write-Host "  [2] Enter a custom path" -ForegroundColor White
+    Write-Host "  [S] Skip BMAD setup" -ForegroundColor DarkGray
+    Write-Host ""
+
+    $choice = Read-Host "  Enter choice (1, 2, or S)"
+    $choice = $choice.Trim().ToUpper()
+
+    switch ($choice) {
+        "1" { return $SCRIPT_DIR }
+        "S" { return $null }
+        "2" {
+            $customPath = Read-Host "  Enter full path to your workspace"
+            $customPath = $customPath.Trim().Trim('"')
+            if (Test-Path $customPath) {
+                return $customPath
+            }
+            else {
+                Write-Warn "Path not found: $customPath"
+                Write-Warn "Using current directory instead."
+                return $SCRIPT_DIR
+            }
+        }
+        default { return $SCRIPT_DIR }
+    }
+}
+
 # ============================================================
 #  MAIN EXECUTION
 # ============================================================
@@ -429,7 +695,7 @@ if (-not (Initialize-CredMan)) {
 }
 
 # Step 0: Fetch API key from Vault
-Write-Section "Step 0 of 4 - Fetching Secrets from HashiCorp Vault"
+Write-Section "Step 0 of 5 - Fetching Secrets from HashiCorp Vault"
 
 $ANTHROPIC_API_KEY = Get-VaultSecret `
     -vaultAddr   $VAULT_ADDR `
@@ -452,10 +718,10 @@ if (-not $ANTHROPIC_API_KEY) {
 }
 
 # Step 1: Detect IDEs
-Write-Section "Step 1 of 4 - Detecting Installed IDEs"
-$ides = Get-InstalledIDEs
+Write-Section "Step 1 of 5 - Detecting Installed IDEs"
+$allDetectedIDEs = Get-InstalledIDEs
 
-if ($ides.Count -eq 0) {
+if ($allDetectedIDEs.Count -eq 0) {
     Write-Fail "No supported IDE found on this machine."
     Write-Host ""
     Write-Host "  Supported: VS Code, Cursor, Antigravity" -ForegroundColor DarkGray
@@ -465,42 +731,93 @@ if ($ides.Count -eq 0) {
     exit 1
 }
 
-foreach ($ide in $ides) {
+Write-Host ""
+foreach ($ide in $allDetectedIDEs) {
     $cliDisplay = if ($ide.CLIPath) { $ide.CLIPath } else { "(CLI not in PATH - settings only)" }
-    Write-OK "Found: $($ide.Name)  ->  $cliDisplay"
+    Write-OK "Found: $($ide.Name.PadRight(16)) -> $cliDisplay"
 }
 
-# Step 2: Install Roo Code extension
-Write-Section "Step 2 of 4 - Installing Roo Code Extension"
+# Step 2: IDE Selection Menu
+Write-Section "Step 2 of 5 - IDE Selection"
+
+$selectedIDEs = $null
+if ($Silent) {
+    # In silent mode, install to all detected IDEs
+    $selectedIDEs = $allDetectedIDEs
+    Write-OK "Silent mode: installing to all detected IDEs."
+}
+else {
+    $selectedIDEs = Show-IDESelectionMenu -detectedIDEs $allDetectedIDEs
+}
+
+if ($null -eq $selectedIDEs) {
+    Write-Host ""
+    Write-Host "  Installation cancelled by user." -ForegroundColor DarkYellow
+    Read-Host "  Press ENTER to exit"
+    exit 0
+}
+
+if ($selectedIDEs.Count -eq 0) {
+    Write-Fail "No IDEs selected."
+    if (-not $Silent) { Read-Host "  Press ENTER to exit" }
+    exit 1
+}
+
+Write-Host ""
+Write-Host "  Installing to:" -ForegroundColor Cyan
+foreach ($ide in $selectedIDEs) {
+    Write-Host "    - $($ide.Name)" -ForegroundColor White
+}
+
+# Step 3: Install Roo Code extension
+Write-Section "Step 3 of 5 - Installing Roo Code Extension"
 
 $installResults = @{}
-foreach ($ide in $ides) {
+foreach ($ide in $selectedIDEs) {
     $ok = Install-Extension -ide $ide -extensionId $ROO_EXTENSION_ID
     $installResults[$ide.Name] = $ok
 }
 
-# Step 3: Show profiles being created
-Write-Section "Step 3 of 4 - Building Configuration Profiles"
+# Step 4: Write profiles to each selected IDE
+Write-Section "Step 4 of 5 - Building & Writing Configuration Profiles"
 
 Write-OK "Profile 1 -> Gemini-2.5-pro    (GCP Vertex AI | Project: $GCP_PROJECT_ID | Region: $GCP_REGION)"
 Write-OK "Profile 2 -> Gemini-2.5-flash  (GCP Vertex AI | Project: $GCP_PROJECT_ID | Region: $GCP_REGION)"
 Write-OK "Profile 3 -> Claude Sonnet     (Anthropic | Model: claude-sonnet-4-6)"
 Write-OK "Profile 4 -> Claude Opus       (Anthropic | Model: claude-opus-4-6)"
-
-# Step 4: Write profiles to each IDE via Windows Credential Manager
-Write-Section "Step 4 of 4 - Writing Profiles to IDE Credential Store"
+Write-Host ""
 
 $profileResults = @{}
-foreach ($ide in $ides) {
+foreach ($ide in $selectedIDEs) {
     $ok = Set-RooProfiles -ide $ide -anthropicKey $ANTHROPIC_API_KEY
     $profileResults[$ide.Name] = $ok
+}
+
+# Step 5: BMAD Integration
+Write-Section "Step 5 of 5 - BMAD Integration"
+
+$workspacePath = $null
+if ($Silent) {
+    $workspacePath = $SCRIPT_DIR
+    Write-OK "Silent mode: using script directory for BMAD files."
+}
+else {
+    $workspacePath = Get-WorkspacePath
+}
+
+$bmadResult = $false
+if ($null -ne $workspacePath) {
+    $bmadResult = Install-BMADIntegration -workspacePath $workspacePath
+}
+else {
+    Write-Warn "BMAD setup skipped by user."
 }
 
 # Final Summary
 Write-Section "Installation Complete - Summary"
 
 $allGood = $true
-foreach ($ide in $ides) {
+foreach ($ide in $selectedIDEs) {
     $extOk      = $installResults[$ide.Name]
     $profOk     = $profileResults[$ide.Name]
     $extStatus  = if ($extOk)  { "[OK] Extension" } else { "[!!] Extension (check manually)" }
@@ -509,11 +826,14 @@ foreach ($ide in $ides) {
     Write-Host "  $($ide.Name.PadRight(24)) $extStatus  |  $profStatus" -ForegroundColor White
 }
 
+$bmadStatus = if ($bmadResult) { "[OK] BMAD files copied" } elseif ($null -eq $workspacePath) { "[--] BMAD skipped" } else { "[!!] BMAD partial" }
+Write-Host "  $("BMAD Integration".PadRight(24)) $bmadStatus" -ForegroundColor White
+
 Write-Host ""
 Write-Host "  -----------------------------------------------" -ForegroundColor DarkGray
 
 if ($allGood) {
-    Write-Host "  SUCCESS! All IDEs configured." -ForegroundColor Green
+    Write-Host "  SUCCESS! All selected IDEs configured." -ForegroundColor Green
 }
 else {
     Write-Host "  Done with some warnings. Check items marked [!!] above." -ForegroundColor DarkYellow
@@ -530,7 +850,20 @@ Write-Host "    - Claude Sonnet    (Anthropic - Ready to use!)" -ForegroundColor
 Write-Host "    - Claude Opus      (Anthropic - Ready to use!)" -ForegroundColor DarkGray
 Write-Host ""
 
-# ---- Auto-restart detected IDEs ----------------------------
+if ($bmadResult) {
+    Write-Host "  BMAD files installed:" -ForegroundColor DarkGray
+    Write-Host "    - .roo/mcp.json        (8 MCP servers configured)" -ForegroundColor DarkGray
+    Write-Host "    - .roo/bootstrap-mcp.ps1 (Vault secret resolver)" -ForegroundColor DarkGray
+    Write-Host "    - .clinerules          (AI coding rules)" -ForegroundColor DarkGray
+    Write-Host "    - docs/bmad/README.md  (BMAD documentation stub)" -ForegroundColor DarkGray
+    Write-Host "    - docs/specs/README.md (API specs stub)" -ForegroundColor DarkGray
+    Write-Host ""
+    Write-Host "  Run .roo/bootstrap-mcp.ps1 to resolve Vault secrets" -ForegroundColor DarkYellow
+    Write-Host "  into .roo/mcp.resolved.json for MCP server use." -ForegroundColor DarkYellow
+    Write-Host ""
+}
+
+# ---- Auto-restart selected IDEs ----------------------------
 Write-Section "Restarting IDEs"
 
 $ideProcessMap = @{
@@ -540,7 +873,7 @@ $ideProcessMap = @{
 }
 
 $restartedAny = $false
-foreach ($ide in $ides) {
+foreach ($ide in $selectedIDEs) {
     $procNames = $ideProcessMap[$ide.Name]
     if (-not $procNames) { continue }
 
@@ -592,10 +925,13 @@ if ($restartedAny) {
     Write-Host "  1. Your IDE(s) have been restarted automatically" -ForegroundColor Green
 }
 else {
-    Write-Host "  1. Restart VS Code (required for credential changes to take effect)" -ForegroundColor White
+    Write-Host "  1. Restart your IDE (required for credential changes to take effect)" -ForegroundColor White
 }
 Write-Host "  2. Open Roo Code from the sidebar" -ForegroundColor White
 Write-Host "  3. Click the profile dropdown at the top of Roo Code to switch profiles" -ForegroundColor White
+if ($bmadResult) {
+    Write-Host "  4. Run .roo/bootstrap-mcp.ps1 to activate MCP servers" -ForegroundColor White
+}
 Write-Host ""
 
 if (-not $Silent) {
