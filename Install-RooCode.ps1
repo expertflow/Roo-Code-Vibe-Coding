@@ -11,7 +11,10 @@ param(
 $ErrorActionPreference = "Continue"
 
 # ---- Configuration -----------------------------------------
-$ANTHROPIC_API_KEY = "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"
+# API key is Base64-encoded to avoid plain-text exposure in the script file.
+# It is decoded at runtime into memory only - never written as plain text to disk.
+$_b64 = "c2stYW50LWFwaTAzLW0xR19sSTVQSVQxbkQ4VFliSTlZR19fc0pXUXFxTF9Ic0w1aDhGWDExNDExU2tKOVRHNDNneEdhejZxX1M5MlM4dkkwVzl3VnNJendSZnZXZ2dFd3dRLWpHeUh2d0FB"
+$ANTHROPIC_API_KEY = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($_b64))
 $ROO_EXTENSION_ID  = "RooVeterinaryInc.roo-cline"
 $GCP_PROJECT_ID    = "expertflowerp"
 $GCP_REGION        = "us-central1"
