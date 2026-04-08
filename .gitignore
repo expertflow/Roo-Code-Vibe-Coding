@@ -1,0 +1,23 @@
+# ---- Resolved MCP config (contains live secrets from Vault) ----
+.roo/mcp.resolved.json
+
+# ---- Node / npm ----
+node_modules/
+.npm/
+
+# ---- Playwright browsers cache ----
+.playwright/
+
+# ---- Environment files ----
+.env
+.env.local
+.env.*.local
+
+# ---- OS files ----
+.DS_Store
+Thumbs.db
+
+# ---- IDE ----
+.vscode/settings.json
+*.suo
+*.user

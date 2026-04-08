@@ -1,6 +1,6 @@
 # ============================================================
 #  Roo Code - Universal Extension Installer & Profile Setup
-#  Supports: VS Code, VS Code Insiders, Cursor, Windsurf, VSCodium
+#  Supports: VS Code, Cursor, Antigravity
 #  Version : 2.0  (HashiCorp Vault secrets integration)
 # ============================================================
 
@@ -16,9 +16,9 @@ $ErrorActionPreference = "Continue"
 $VAULT_ADDR  = "https://45.88.223.83:31313"
 $VAULT_TOKEN = "hvs.CAESIC0nSYZlc92KbjE36r_Vncz-MznLpY0eMplhN_V6FrVaGh4KHGh2cy5jU3Q2djJMWjc2bWJPYkZhN3ZSN1JBcUc"
 
-# cubbyhole is a KV v1 backend - path has no /data/ prefix
-$VAULT_SECRET_PATH  = "cubbyhole/roocode"
-$VAULT_SECRET_FIELD = "anthropic_api_key"
+# Vault path: cubbyhole/internal-erp/db  field: ANTHROPIC_API_KEY
+$VAULT_SECRET_PATH  = "cubbyhole/internal-erp/db"
+$VAULT_SECRET_FIELD = "ANTHROPIC_API_KEY"
 
 # ---- Static Configuration ----------------------------------
 $ROO_EXTENSION_ID = "RooVeterinaryInc.roo-cline"
@@ -31,7 +31,7 @@ function Write-Header {
     Write-Host ""
     Write-Host "  =============================================" -ForegroundColor Cyan
     Write-Host "   ROO CODE - Universal Installer  v2.0" -ForegroundColor Cyan
-    Write-Host "   VS Code | Cursor | Windsurf | VSCodium" -ForegroundColor Cyan
+    Write-Host "   VS Code | Cursor | Antigravity" -ForegroundColor Cyan
     Write-Host "   Secrets via HashiCorp Vault" -ForegroundColor DarkCyan
     Write-Host "  =============================================" -ForegroundColor Cyan
     Write-Host ""
@@ -146,15 +146,6 @@ function Get-InstalledIDEs {
             )
         },
         @{
-            Name         = "VS Code Insiders"
-            CLI          = "code-insiders"
-            SettingsBase = "$env:APPDATA\Code - Insiders\User"
-            ExtraPaths   = @(
-                "$env:LOCALAPPDATA\Programs\Microsoft VS Code Insiders\bin\code-insiders.cmd",
-                "C:\Program Files\Microsoft VS Code Insiders\bin\code-insiders.cmd"
-            )
-        },
-        @{
             Name         = "Cursor"
             CLI          = "cursor"
             SettingsBase = "$env:APPDATA\Cursor\User"
@@ -167,21 +158,14 @@ function Get-InstalledIDEs {
             )
         },
         @{
-            Name         = "Windsurf"
-            CLI          = "windsurf"
-            SettingsBase = "$env:APPDATA\Windsurf\User"
+            Name         = "Antigravity"
+            CLI          = "antigravity"
+            SettingsBase = "$env:APPDATA\Antigravity\User"
             ExtraPaths   = @(
-                "$env:LOCALAPPDATA\Programs\Windsurf\bin\windsurf.cmd",
-                "C:\Program Files\Windsurf\bin\windsurf.cmd"
-            )
-        },
-        @{
-            Name         = "VSCodium"
-            CLI          = "codium"
-            SettingsBase = "$env:APPDATA\VSCodium\User"
-            ExtraPaths   = @(
-                "$env:LOCALAPPDATA\Programs\VSCodium\bin\codium.cmd",
-                "C:\Program Files\VSCodium\bin\codium.cmd"
+                "$env:LOCALAPPDATA\Programs\Antigravity\bin\antigravity.cmd",
+                "$env:LOCALAPPDATA\Programs\Antigravity\antigravity.exe",
+                "C:\Program Files\Antigravity\bin\antigravity.cmd",
+                "C:\Program Files\Antigravity\antigravity.exe"
             )
         }
     )
@@ -418,7 +402,7 @@ $ides = Get-InstalledIDEs
 if ($ides.Count -eq 0) {
     Write-Fail "No supported IDE found on this machine."
     Write-Host ""
-    Write-Host "  Supported: VS Code, VS Code Insiders, Cursor, Windsurf, VSCodium" -ForegroundColor DarkGray
+    Write-Host "  Supported: VS Code, Cursor, Antigravity" -ForegroundColor DarkGray
     Write-Host "  Install at least one IDE and re-run this script." -ForegroundColor DarkGray
     Write-Host ""
     if (-not $Silent) {
@@ -485,11 +469,6 @@ else {
 }
 
 Write-Host ""
-Write-Host "  NEXT STEPS:" -ForegroundColor Cyan
-Write-Host "  1. Restart your IDE(s)" -ForegroundColor White
-Write-Host "  2. Open Roo Code from the sidebar" -ForegroundColor White
-Write-Host "  3. Select a profile from the dropdown at the top of Roo Code" -ForegroundColor White
-Write-Host ""
 Write-Host "  NOTE: For Gemini profiles, authenticate with Google Cloud:" -ForegroundColor DarkYellow
 Write-Host "        gcloud auth application-default login" -ForegroundColor Yellow
 Write-Host ""
@@ -498,6 +477,74 @@ Write-Host "    - Gemini-2.5-pro   (Vertex AI)" -ForegroundColor DarkGray
 Write-Host "    - Gemini-2.5-flash (Vertex AI)" -ForegroundColor DarkGray
 Write-Host "    - Claude Sonnet    (Anthropic - Ready to use!)" -ForegroundColor DarkGray
 Write-Host "    - Claude Opus      (Anthropic - Ready to use!)" -ForegroundColor DarkGray
+Write-Host ""
+
+# ---- Auto-restart detected IDEs ----------------------------
+Write-Section "Restarting IDEs"
+
+$ideProcessMap = @{
+    "VS Code"     = @("Code")
+    "Cursor"      = @("Cursor")
+    "Antigravity" = @("Antigravity", "antigravity")
+}
+
+$restartedAny = $false
+foreach ($ide in $ides) {
+    $procNames = $ideProcessMap[$ide.Name]
+    if (-not $procNames) { continue }
+
+    $running = $false
+    foreach ($pn in $procNames) {
+        if (Get-Process -Name $pn -ErrorAction SilentlyContinue) {
+            $running = $true
+            Write-Step "Closing $($ide.Name) ..."
+            try {
+                Get-Process -Name $pn -ErrorAction SilentlyContinue | Stop-Process -Force
+                Start-Sleep -Seconds 2
+                Write-OK "$($ide.Name) closed."
+            }
+            catch {
+                Write-Warn "Could not close $($ide.Name): $($_.Exception.Message)"
+            }
+            break
+        }
+    }
+
+    if ($running) {
+        $cli = if ($ide.CLIPath) { $ide.CLIPath } else { $ide.CLI }
+        if ($cli) {
+            Write-Step "Restarting $($ide.Name) ..."
+            try {
+                Start-Process $cli
+                Write-OK "$($ide.Name) restarted."
+                $restartedAny = $true
+            }
+            catch {
+                Write-Warn "Could not restart $($ide.Name): $($_.Exception.Message)"
+                Write-Warn "Please restart $($ide.Name) manually."
+            }
+        }
+        else {
+            Write-Warn "$($ide.Name) was closed. Please reopen it manually."
+        }
+    }
+    else {
+        Write-OK "$($ide.Name) is not running - no restart needed."
+    }
+}
+
+Write-Host ""
+Write-Host "  -----------------------------------------------" -ForegroundColor DarkGray
+Write-Host ""
+Write-Host "  NEXT STEPS:" -ForegroundColor Cyan
+if ($restartedAny) {
+    Write-Host "  1. Your IDE(s) have been restarted automatically" -ForegroundColor Green
+}
+else {
+    Write-Host "  1. Open your IDE (VS Code, Cursor, or Antigravity)" -ForegroundColor White
+}
+Write-Host "  2. Open Roo Code from the sidebar" -ForegroundColor White
+Write-Host "  3. Select a profile from the dropdown at the top of Roo Code" -ForegroundColor White
 Write-Host ""
 
 if (-not $Silent) {

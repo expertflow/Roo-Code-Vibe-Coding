@@ -1,0 +1,47 @@
+{
+  "name": "Roo Code Vibe Coding Stack",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
+
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": { "version": "20" },
+    "ghcr.io/devcontainers/features/python:1": { "version": "3.11" },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/gcloud-cli:1": {},
+    "ghcr.io/devcontainers/features/powershell:1": {}
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "RooVeterinaryInc.roo-cline",
+        "GoogleCloudTools.cloudcode",
+        "ms-azuretools.vscode-docker",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-playwright.playwright",
+        "Angular.ng-template",
+        "bradlc.vscode-tailwindcss"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "editor.formatOnSave": true,
+        "eslint.enable": true
+      }
+    }
+  },
+
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+
+  "remoteEnv": {
+    "VAULT_ADDR": "https://45.88.223.83:31313",
+    "VAULT_SKIP_VERIFY": "true"
+  },
+
+  "forwardPorts": [4200, 3000, 8055],
+
+  "portsAttributes": {
+    "4200": { "label": "Angular Dev Server" },
+    "3000": { "label": "Node API" },
+    "8055": { "label": "Directus" }
+  }
+}

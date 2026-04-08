@@ -1,0 +1,101 @@
+{
+  "mcpServers": {
+
+    "hashicorp-vault": {
+      "comment": "HashiCorp Vault MCP - primary secrets source. Path: cubbyhole/internal-erp/db",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-vault"],
+      "env": {
+        "VAULT_ADDR": "https://45.88.223.83:31313",
+        "VAULT_TOKEN": "hvs.CAESIC0nSYZlc92KbjE36r_Vncz-MznLpY0eMplhN_V6FrVaGh4KHGh2cy5jU3Q2djJMWjc2bWJPYkZhN3ZSN1JBcUc",
+        "VAULT_SKIP_VERIFY": "true"
+      }
+    },
+
+    "postgresql": {
+      "comment": "PostgreSQL MCP - DB_PASSWORD from cubbyhole/internal-erp/db",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "env": {
+        "VAULT_ADDR": "https://45.88.223.83:31313",
+        "VAULT_TOKEN": "hvs.CAESIC0nSYZlc92KbjE36r_Vncz-MznLpY0eMplhN_V6FrVaGh4KHGh2cy5jU3Q2djJMWjc2bWJPYkZhN3ZSN1JBcUc",
+        "VAULT_SECRET_PATH": "cubbyhole/internal-erp/db",
+        "VAULT_SECRET_KEY": "DB_PASSWORD"
+      }
+    },
+
+    "directus": {
+      "comment": "Directus MCP - DIRECTUS_KEY and DIRECTUS_SECRET from cubbyhole/internal-erp/db",
+      "command": "npx",
+      "args": ["-y", "@directus/mcp-server"],
+      "env": {
+        "DIRECTUS_URL": "https://bs4.expertflow.com",
+        "VAULT_ADDR": "https://45.88.223.83:31313",
+        "VAULT_TOKEN": "hvs.CAESIC0nSYZlc92KbjE36r_Vncz-MznLpY0eMplhN_V6FrVaGh4KHGh2cy5jU3Q2djJMWjc2bWJPYkZhN3ZSN1JBcUc",
+        "VAULT_SECRET_PATH": "cubbyhole/internal-erp/db",
+        "VAULT_KEY_FIELD": "DIRECTUS_KEY",
+        "VAULT_SECRET_FIELD": "DIRECTUS_SECRET"
+      }
+    },
+
+    "bmad": {
+      "comment": "BMAD Method MCP - business model architecture design documentation",
+      "command": "npx",
+      "args": ["-y", "bmad-method", "mcp"],
+      "env": {
+        "BMAD_DOCS_PATH": "${workspaceFolder}/docs/bmad"
+      }
+    },
+
+    "speckit": {
+      "comment": "GitHub SpecKit MCP - implementation specs and API contracts",
+      "command": "npx",
+      "args": ["-y", "@github/spec-kit-mcp"],
+      "env": {
+        "SPECS_PATH": "${workspaceFolder}/docs/specs",
+        "VAULT_ADDR": "https://45.88.223.83:31313",
+        "VAULT_TOKEN": "hvs.CAESIC0nSYZlc92KbjE36r_Vncz-MznLpY0eMplhN_V6FrVaGh4KHGh2cy5jU3Q2djJMWjc2bWJPYkZhN3ZSN1JBcUc",
+        "VAULT_SECRET_PATH": "cubbyhole/internal-erp/db",
+        "VAULT_SECRET_KEY": "GITHUB_TOKEN"
+      }
+    },
+
+    "playwright": {
+      "comment": "Playwright MCP - browser automation and end-to-end testing",
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"],
+      "env": {
+        "PLAYWRIGHT_BROWSERS_PATH": "${workspaceFolder}/.playwright"
+      }
+    },
+
+    "vmware": {
+      "comment": "VMware MCP - GCP VMware Engine infrastructure management",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-vmware"],
+      "env": {
+        "VAULT_ADDR": "https://45.88.223.83:31313",
+        "VAULT_TOKEN": "hvs.CAESIC0nSYZlc92KbjE36r_Vncz-MznLpY0eMplhN_V6FrVaGh4KHGh2cy5jU3Q2djJMWjc2bWJPYkZhN3ZSN1JBcUc",
+        "VAULT_SECRET_PATH": "cubbyhole/internal-erp/db",
+        "VAULT_SECRET_KEY": "ADMIN_PASSWORD",
+        "VMWARE_INSECURE": "true"
+      }
+    },
+
+    "lint": {
+      "comment": "Lint MCP - ESLint, Sonar, Gherkin, requirement-linter pre/post hooks",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-lint"],
+      "env": {
+        "LINT_CONFIG_PATH": "${workspaceFolder}/.eslintrc.json",
+        "GHERKIN_FEATURES_PATH": "${workspaceFolder}/features",
+        "REQUIREMENT_LINTER_DOCS": "${workspaceFolder}/docs/bmad",
+        "VAULT_ADDR": "https://45.88.223.83:31313",
+        "VAULT_TOKEN": "hvs.CAESIC0nSYZlc92KbjE36r_Vncz-MznLpY0eMplhN_V6FrVaGh4KHGh2cy5jU3Q2djJMWjc2bWJPYkZhN3ZSN1JBcUc",
+        "VAULT_SECRET_PATH": "cubbyhole/internal-erp/db",
+        "VAULT_SECRET_KEY": "SONAR_TOKEN"
+      }
+    }
+
+  }
+}

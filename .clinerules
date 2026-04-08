@@ -1,0 +1,53 @@
+# ============================================================
+#  Roo Code Global Rules - Enterprise Vibe Coding Stack
+#  These rules apply to ALL modes and ALL tasks.
+# ============================================================
+
+## Secrets & Credentials
+- NEVER hardcode API keys, passwords, tokens, or connection strings in any file.
+- ALWAYS fetch secrets from HashiCorp Vault at: https://45.88.223.83:31313
+- Vault secret path for all project secrets: cubbyhole/roocode
+- If you need a secret, say "I need [secret_name] from Vault" and use the vault MCP tool.
+- NEVER write a secret to a log, console output, or comment.
+
+## Database (PostgreSQL)
+- ALWAYS use the postgresql MCP tool for database operations.
+- NEVER write raw SQL directly in application code - use the Directus SDK instead.
+- Only use raw SQL via the postgresql MCP for schema inspection, migrations, and reporting.
+- Before writing any DB query, check the schema via the postgresql MCP first.
+
+## Directus
+- ALWAYS use the Directus SDK (@directus/sdk) for CRUD operations in application code.
+- Use the directus MCP to inspect collections, fields, and permissions before coding.
+- NEVER bypass Directus permissions by going directly to PostgreSQL in app code.
+
+## Code Quality & Linting
+- ALWAYS run the lint MCP check before raising a PR.
+- ESLint must pass with zero errors before any commit.
+- Gherkin/Cucumber feature files must exist for all new user-facing features.
+- Run requirement-linter against docs/bmad before starting any new feature.
+
+## Documentation
+- Read docs/bmad BEFORE writing any new feature code.
+- Read docs/specs BEFORE implementing any API endpoint or schema change.
+- Update docs/specs when you change an API contract or database schema.
+
+## Testing
+- Use the playwright MCP to write and run end-to-end tests for all UI changes.
+- Tests must pass before a PR is raised.
+- Write tests ALONGSIDE the feature code, not after.
+
+## LLM Model Selection
+- Use Gemini 2.5 Pro for: initial architecture, large context tasks (>100k tokens).
+- Use Claude Sonnet for: active coding, complex logic, refactoring.
+- Use Gemini 2.5 Flash for: unit tests, documentation strings, simple boilerplate.
+
+## GCP & Infrastructure
+- Target platform: GCP (Cloud Run, Firebase, PostgreSQL, Docker).
+- Use Angular/Material, Bootstrap, Tailwind, Ngx-charts - NOT React/Vite/Shadcn.
+- Reference GCP project: expertflowerp, region: us-central1.
+
+## Git & SAFe
+- Every AI-generated code change must pass linting and SpecKit validation (Definition of Done).
+- Commit messages must reference the Jira ticket number.
+- Never push directly to main - always raise a PR.
